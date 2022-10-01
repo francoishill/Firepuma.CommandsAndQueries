@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries.Abstractions", "Firepuma.CommandsAndQueries.Abstractions\Firepuma.CommandsAndQueries.Abstractions.csproj", "{B1E89F5C-E355-495A-AE91-C758E3648037}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{695148EC-63BB-46B4-9655-0102DF3AB77C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1E89F5C-E355-495A-AE91-C758E3648037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E89F5C-E355-495A-AE91-C758E3648037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E89F5C-E355-495A-AE91-C758E3648037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E89F5C-E355-495A-AE91-C758E3648037}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
