@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries.CosmosDb", "Firepuma.CommandsAndQueries.CosmosDb\Firepuma.CommandsAndQueries.CosmosDb.csproj", "{8813DF73-C9ED-4206-9E7B-8379FF766125}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{47D0B709-F2E4-4027-8855-E783EF991112}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CommandsAndQueriesApi", "Samples\Sample.CommandsAndQueriesApi\Sample.CommandsAndQueriesApi.csproj", "{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,7 +29,12 @@ Global
 		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0} = {47D0B709-F2E4-4027-8855-E783EF991112}
 	EndGlobalSection
 EndGlobal
