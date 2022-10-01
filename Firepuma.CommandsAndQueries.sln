@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries.CosmosDb", "Firepuma.CommandsAndQueries.CosmosDb\Firepuma.CommandsAndQueries.CosmosDb.csproj", "{8813DF73-C9ED-4206-9E7B-8379FF766125}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,11 @@ Global
 		{B1E89F5C-E355-495A-AE91-C758E3648037}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1E89F5C-E355-495A-AE91-C758E3648037}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1E89F5C-E355-495A-AE91-C758E3648037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8813DF73-C9ED-4206-9E7B-8379FF766125}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
