@@ -26,6 +26,9 @@ public static class ServiceCollectionExtensions
                 container,
                 serviceProvider) => new CommandExecutionCosmosDbRepository(logger, container, serviceProvider));
 
-        services.AddCommandsAuditPipelineBehavior<CommandAuditingCosmosDbStorage>();
+        services.AddCommandsAuditPipelineBehavior<CommandAuditingCosmosDbStorage>(new Abstractions.ServiceCollectionExtensions.Options
+        {
+            AddLoggingScopeBehavior = true,
+        });
     }
 }
