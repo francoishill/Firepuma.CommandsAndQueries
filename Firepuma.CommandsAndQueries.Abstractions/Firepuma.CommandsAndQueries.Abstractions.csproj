@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Firepuma.DatabaseRepositories.Abstractions" Version="0.5.5" />
+      <PackageReference Include="Firepuma.DatabaseRepositories.Abstractions" Version="0.6.7" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />

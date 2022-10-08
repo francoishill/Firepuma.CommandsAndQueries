@@ -1,5 +1,4 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions;
-using Firepuma.CommandsAndQueries.Abstractions.Queries;
+﻿using Firepuma.CommandsAndQueries.Abstractions.Queries;
 using Firepuma.DatabaseRepositories.Abstractions.QuerySpecifications;
 using MediatR;
 using Sample.CommandsAndQueriesApi.Pets.Entities;

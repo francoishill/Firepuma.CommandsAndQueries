@@ -26,7 +26,7 @@ builder.Services
         PetEntity,
         IPetRepository,
         PetCosmosDbRepository>(
-        CosmosContainers.Pets.Id,
+        CosmosContainers.Pets.ContainerProperties.Id,
         (
             logger,
             container,
@@ -34,7 +34,7 @@ builder.Services
 builder.Services
     .AddCommandsAuditWithCosmosDbPipelineBehavior<
         CommandAuditPartitionKeyGenerator>(
-        CosmosContainers.CommandExecutions.Id);
+        CosmosContainers.CommandExecutions.ContainerProperties.Id);
 builder.Services.AddMediatR(typeof(PetsController));
 
 var app = builder.Build();

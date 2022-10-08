@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Firepuma.DatabaseRepositories.CosmosDb" Version="0.5.5" />
+        <PackageReference Include="Firepuma.DatabaseRepositories.CosmosDb" Version="0.6.7" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
