@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Firepuma.CommandsAndQueries.Abstractions;
+namespace Firepuma.CommandsAndQueries.Abstractions.Queries;
 
 public interface IQueryRequest
 {
