@@ -41,6 +41,14 @@ public static class ServiceCollectionExtensions
                     $" commandHandlingOptions.{nameof(commandHandlingOptions.AddValidationBehaviorPipeline)} is true");
             }
 
+            var duplicateAssemblies = commandHandlingOptions.ValidationHandlerMarkerAssemblies.GroupBy(a => a).Where(group => group.Count() > 1).ToArray();
+            if (duplicateAssemblies.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(commandHandlingOptions.ValidationHandlerMarkerAssemblies)} should not contain duplicates, the following" +
+                    $" names are duplicate: {string.Join("; ", duplicateAssemblies.Select(a => a.Key.FullName))}");
+            }
+
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
             services.AddValidatorsFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies);
         }
@@ -59,6 +67,14 @@ public static class ServiceCollectionExtensions
                 throw new InvalidOperationException(
                     $"At least one {nameof(commandHandlingOptions.AuthorizationHandlerMarkerAssemblies)} is required when" +
                     $" commandHandlingOptions.{nameof(commandHandlingOptions.AddAuthorizationBehaviorPipeline)} is true");
+            }
+
+            var duplicateAssemblies = commandHandlingOptions.AuthorizationHandlerMarkerAssemblies.GroupBy(a => a).Where(group => group.Count() > 1).ToArray();
+            if (duplicateAssemblies.Length > 0)
+            {
+                throw new InvalidOperationException(
+                    $"{nameof(commandHandlingOptions.AuthorizationHandlerMarkerAssemblies)} should not contain duplicates, the following" +
+                    $" names are duplicate: {string.Join("; ", duplicateAssemblies.Select(a => a.Key.FullName))}");
             }
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipeline<,>));

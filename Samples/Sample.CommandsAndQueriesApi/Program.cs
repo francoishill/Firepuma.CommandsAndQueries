@@ -37,7 +37,7 @@ builder.Services
 var assembliesWithCommandHandlers = new[]
 {
     typeof(CreatePetCommand).Assembly,
-};
+}.Distinct().ToArray();
 builder.Services
     .AddCommandHandlingWithCosmosDbStorage(
         new CosmosDbCommandHandlingOptions
