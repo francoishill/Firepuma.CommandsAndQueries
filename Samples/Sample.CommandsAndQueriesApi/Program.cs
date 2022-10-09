@@ -1,4 +1,5 @@
 using Firepuma.CommandsAndQueries.CosmosDb;
+using Firepuma.CommandsAndQueries.CosmosDb.Config;
 using Firepuma.DatabaseRepositories.CosmosDb;
 using MediatR;
 using Sample.CommandsAndQueriesApi.Configuration;
@@ -32,9 +33,14 @@ builder.Services
             container,
             _) => new PetCosmosDbRepository(logger, container));
 builder.Services
-    .AddCommandsAuditWithCosmosDbPipelineBehavior<
-        CommandAuditPartitionKeyGenerator>(
-        CosmosContainers.CommandExecutions.ContainerProperties.Id);
+    .AddCommandHandlingWithCosmosDbAuditing(
+        new CosmosDbCommandHandlingOptions
+        {
+            AddLoggingScopePipelineBehavior = true,
+            AddAuditing = true,
+            CommandAuditPartitionKeyGenerator = typeof(CommandAuditPartitionKeyGenerator),
+            CommandExecutionEventContainerName = CosmosContainers.CommandExecutions.ContainerProperties.Id,
+        });
 builder.Services.AddMediatR(typeof(PetsController));
 
 var app = builder.Build();

@@ -1,4 +1,5 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
+﻿using Firepuma.CommandsAndQueries.Abstractions.Config;
+using Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 using Firepuma.CommandsAndQueries.Abstractions.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,28 +8,27 @@ namespace Firepuma.CommandsAndQueries.Abstractions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCommandsAuditPipelineBehavior<TAuditStorageImplementation>(
+    public static void AddCommandHandling(
         this IServiceCollection services,
-        Options options)
-        where TAuditStorageImplementation : class, ICommandAuditingStorage
+        CommandHandlingOptions commandHandlingOptions)
     {
-        options ??= new Options();
+        if (commandHandlingOptions == null) throw new ArgumentNullException(nameof(commandHandlingOptions));
 
-        services.AddTransient<ICommandAuditingStorage, TAuditStorageImplementation>();
-
-        if (options.AddLoggingScopeBehavior)
+        if (commandHandlingOptions.AddLoggingScopePipelineBehavior)
         {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingScopeBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingScopePipelineBehaviour<,>));
         }
 
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuditCommandsBehaviour<,>));
-    }
+        if (commandHandlingOptions.AddAuditing)
+        {
+            if (services.All(svc => svc.ServiceType != typeof(ICommandAuditingStorage)))
+            {
+                throw new InvalidOperationException(
+                    $"An implementation of {nameof(ICommandAuditingStorage)} must be registered before calling {nameof(AddCommandHandling)} with" +
+                    $" commandHandlingOptions.{nameof(commandHandlingOptions.AddAuditing)} is true");
+            }
 
-    public class Options
-    {
-        /// <summary>
-        /// Add scope (with logger.BeginScope) around command handlers, to indicate the request ty
-        /// </summary>
-        public bool AddLoggingScopeBehavior { get; set; } = true;
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuditCommandsBehaviour<,>));
+        }
     }
 }
