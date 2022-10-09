@@ -62,7 +62,7 @@ public static class ServiceCollectionExtensions
             }
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipeline<,>));
-            services.AddAuthorizersFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies);
+            services.AddAuthorizersFromAssemblies(commandHandlingOptions.AuthorizationHandlerMarkerAssemblies);
         }
 
 
