@@ -1,6 +1,10 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.Commands;
+﻿using System.Text.RegularExpressions;
+using Firepuma.CommandsAndQueries.Abstractions.Authorization;
+using Firepuma.CommandsAndQueries.Abstractions.Commands;
 using Firepuma.CommandsAndQueries.Abstractions.Entities.Attributes;
+using FluentValidation;
 using MediatR;
+using Sample.CommandsAndQueriesApi.AuthorizationRequirements;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.Repositories;
 
@@ -18,8 +22,8 @@ public static class CreatePetCommand
     {
         public string Type { get; init; }
         public string Name { get; init; }
-        public DateTime? BornOn { get; init; }
-        public DateTime? ArrivedOn { get; init; }
+        public DateTime BornOn { get; init; }
+        public DateTime ArrivedOn { get; init; }
 
         [IgnoreCommandAudit]
         public string SecretLanguage { get; init; } // example of ignored property for command audits
@@ -28,6 +32,30 @@ public static class CreatePetCommand
     public class Result
     {
         public PetEntity PetEntity { get; init; }
+    }
+
+    public sealed class Validator : AbstractValidator<Payload>
+    {
+        public Validator()
+        {
+            var allowedTypesPattern = new Regex("Cat|Dog|Fish", RegexOptions.Compiled);
+            RuleFor(x => x.Type)
+                .Matches(allowedTypesPattern)
+                .WithMessage($"Type is not valid, pattern for allowed types is '{allowedTypesPattern}'");
+
+            RuleFor(x => x.BornOn)
+                .LessThanOrEqualTo(x => x.ArrivedOn)
+                .WithMessage($"{nameof(Payload.BornOn)} must be less than or equal to {nameof(Payload.ArrivedOn)}");
+        }
+    }
+
+    public class Authorizer : AbstractRequestAuthorizer<Payload>
+    {
+        public override async Task BuildPolicy(Payload request, CancellationToken cancellationToken)
+        {
+            UseRequirement(new PetNameMustBeAllowedRequirement(request.Name));
+            await Task.CompletedTask;
+        }
     }
 
     public class Handler : IRequestHandler<Payload, Result>
@@ -48,8 +76,8 @@ public static class CreatePetCommand
             {
                 Type = payload.Type,
                 Name = payload.Name,
-                BornOn = payload.BornOn ?? throw new ArgumentNullException($"{nameof(payload.BornOn)} is required"),
-                ArrivedOn = payload.ArrivedOn ?? throw new ArgumentNullException($"{nameof(payload.ArrivedOn)} is required"),
+                BornOn = payload.BornOn,
+                ArrivedOn = payload.ArrivedOn,
                 SecretLanguage = payload.SecretLanguage,
             };
             newPet = await _petRepository.AddItemAsync(newPet, cancellationToken);

@@ -22,8 +22,9 @@ public class AdminController : ControllerBase
     {
         var containersToCreate = new[]
         {
-            CosmosContainers.Pets,
+            CosmosContainers.AuthorizationFailures,
             CosmosContainers.CommandExecutions,
+            CosmosContainers.Pets,
         };
 
         var result = await _cosmosDbAdminService.CreateContainersIfNotExist(containersToCreate, cancellationToken);

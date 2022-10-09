@@ -3,6 +3,7 @@ using Firepuma.CommandsAndQueries.CosmosDb.Config;
 using Firepuma.DatabaseRepositories.CosmosDb;
 using MediatR;
 using Sample.CommandsAndQueriesApi.Configuration;
+using Sample.CommandsAndQueriesApi.Pets.Commands;
 using Sample.CommandsAndQueriesApi.Pets.Controllers;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.Repositories;
@@ -32,11 +33,27 @@ builder.Services
             logger,
             container,
             _) => new PetCosmosDbRepository(logger, container));
+
+var assembliesWithCommandHandlers = new[]
+{
+    typeof(CreatePetCommand).Assembly,
+};
 builder.Services
-    .AddCommandHandlingWithCosmosDbAuditing(
+    .AddCommandHandlingWithCosmosDbStorage(
         new CosmosDbCommandHandlingOptions
         {
+            AddWrapCommandExceptionsPipelineBehavior = true,
             AddLoggingScopePipelineBehavior = true,
+            AddPerformanceLoggingPipelineBehavior = true,
+
+            AddValidationBehaviorPipeline = true,
+            ValidationHandlerMarkerAssemblies = assembliesWithCommandHandlers,
+
+            AddAuthorizationBehaviorPipeline = true,
+            AuthorizationFailurePartitionKeyGenerator = typeof(AuthorizationFailurePartitionKeyGenerator),
+            AuthorizationFailureEventContainerName = CosmosContainers.AuthorizationFailures.ContainerProperties.Id,
+            AuthorizationHandlerMarkerAssemblies = assembliesWithCommandHandlers,
+
             AddAuditing = true,
             CommandAuditPartitionKeyGenerator = typeof(CommandAuditPartitionKeyGenerator),
             CommandExecutionEventContainerName = CosmosContainers.CommandExecutions.ContainerProperties.Id,
