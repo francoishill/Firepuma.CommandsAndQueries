@@ -45,19 +45,19 @@ public class CommandExecutionEvent : BaseEntity
     {
         var jsonSerializerSettings = new JsonSerializerSettings();
         jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-        jsonSerializerSettings.ContractResolver = new JsonIgnoreAuditingResolver();
+        jsonSerializerSettings.ContractResolver = new JsonIgnoreCommandExecutionPropertiesResolver();
         return jsonSerializerSettings;
     }
 
-    private class JsonIgnoreAuditingResolver : DefaultContractResolver
+    private class JsonIgnoreCommandExecutionPropertiesResolver : DefaultContractResolver
     {
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             var property = base.CreateProperty(member, memberSerialization);
 
-            var ignoreCommandAudit = (IgnoreCommandAuditAttribute)property.AttributeProvider?.GetAttributes(typeof(IgnoreCommandAuditAttribute), true).FirstOrDefault();
+            var ignoreProperty = (IgnoreCommandExecutionAttribute)property.AttributeProvider?.GetAttributes(typeof(IgnoreCommandExecutionAttribute), true).FirstOrDefault();
 
-            if (ignoreCommandAudit != null)
+            if (ignoreProperty != null)
             {
                 property.Ignored = true;
             }

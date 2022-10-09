@@ -4,7 +4,7 @@
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors.Helpers;
 
-public static class BehaviorPipelineHelpers
+internal static class BehaviorPipelineHelpers
 {
     public static string GetShortTypeName(Type type)
     {

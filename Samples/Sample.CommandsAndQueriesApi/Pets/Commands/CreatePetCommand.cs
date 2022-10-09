@@ -25,8 +25,8 @@ public static class CreatePetCommand
         public DateTime BornOn { get; init; }
         public DateTime ArrivedOn { get; init; }
 
-        [IgnoreCommandAudit]
-        public string SecretLanguage { get; init; } // example of ignored property for command audits
+        [IgnoreCommandExecution]
+        public string SecretLanguage { get; init; } // example of ignored property for command execution recording
     }
 
     public class Result

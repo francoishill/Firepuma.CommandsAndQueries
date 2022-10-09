@@ -9,7 +9,7 @@ namespace Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 internal class CommandExecutionCosmosDbRepository : CosmosDbRepository<CommandExecutionEvent>, ICommandExecutionRepository
 {
-    private readonly ICommandAuditPartitionKeyGenerator _partitionKeyGenerator;
+    private readonly ICommandExecutionPartitionKeyGenerator _partitionKeyGenerator;
 
     public CommandExecutionCosmosDbRepository(
         ILogger logger,
@@ -17,7 +17,7 @@ internal class CommandExecutionCosmosDbRepository : CosmosDbRepository<CommandEx
         IServiceProvider serviceProvider)
         : base(logger, container)
     {
-        _partitionKeyGenerator = serviceProvider.GetRequiredService<ICommandAuditPartitionKeyGenerator>();
+        _partitionKeyGenerator = serviceProvider.GetRequiredService<ICommandExecutionPartitionKeyGenerator>();
     }
 
     protected override string GenerateId(CommandExecutionEvent entity)

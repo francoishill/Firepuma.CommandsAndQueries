@@ -54,8 +54,8 @@ builder.Services
             AuthorizationFailureEventContainerName = CosmosContainers.AuthorizationFailures.ContainerProperties.Id,
             AuthorizationHandlerMarkerAssemblies = assembliesWithCommandHandlers,
 
-            AddAuditing = true,
-            CommandAuditPartitionKeyGenerator = typeof(CommandAuditPartitionKeyGenerator),
+            AddRecordingOfExecution = true,
+            CommandExecutionPartitionKeyGenerator = typeof(CommandExecutionPartitionKeyGenerator),
             CommandExecutionEventContainerName = CosmosContainers.CommandExecutions.ContainerProperties.Id,
         });
 builder.Services.AddMediatR(typeof(PetsController));

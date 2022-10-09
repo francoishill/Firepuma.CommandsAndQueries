@@ -66,16 +66,16 @@ public static class ServiceCollectionExtensions
         }
 
 
-        if (commandHandlingOptions.AddAuditing)
+        if (commandHandlingOptions.AddRecordingOfExecution)
         {
-            if (services.All(svc => svc.ServiceType != typeof(ICommandAuditingStorage)))
+            if (services.All(svc => svc.ServiceType != typeof(ICommandExecutionStorage)))
             {
                 throw new InvalidOperationException(
-                    $"An implementation of {nameof(ICommandAuditingStorage)} must be registered before calling {nameof(AddCommandHandling)} when" +
-                    $" commandHandlingOptions.{nameof(commandHandlingOptions.AddAuditing)} is true");
+                    $"An implementation of {nameof(ICommandExecutionStorage)} must be registered before calling {nameof(AddCommandHandling)} when" +
+                    $" commandHandlingOptions.{nameof(commandHandlingOptions.AddRecordingOfExecution)} is true");
             }
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuditCommandsBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandExecutionRecordingPipeline<,>));
         }
     }
 

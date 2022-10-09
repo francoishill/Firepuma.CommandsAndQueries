@@ -2,7 +2,7 @@
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
 
-public interface ICommandAuditPartitionKeyGenerator
+public interface ICommandExecutionPartitionKeyGenerator
 {
     string GeneratePartitionKey(CommandExecutionEvent entity);
 }

@@ -1,9 +1,13 @@
+using System.Net;
+using Firepuma.CommandsAndQueries.Abstractions.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Sample.CommandsAndQueriesApi.Pets.Commands;
 using Sample.CommandsAndQueriesApi.Pets.Controllers.Requests;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.Queries;
+
+// ReSharper disable SwitchStatementMissingSomeEnumCasesNoDefault
 
 namespace Sample.CommandsAndQueriesApi.Pets.Controllers;
 
@@ -20,20 +24,33 @@ public class PetsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<PetEntity> AddPet(AddPetRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<PetEntity>> AddPet(AddPetRequest request, CancellationToken cancellationToken)
     {
-        var createPetCommand = new CreatePetCommand.Payload
+        try
         {
-            Type = request.Type,
-            Name = request.Name,
-            BornOn = request.BornOn ?? throw new ArgumentNullException($"{nameof(request.BornOn)} is required"),
-            ArrivedOn = request.ArrivedOn ?? throw new ArgumentNullException($"{nameof(request.ArrivedOn)} is required"),
-            SecretLanguage = Guid.NewGuid().ToString("X"),
-        };
+            var createPetCommand = new CreatePetCommand.Payload
+            {
+                Type = request.Type,
+                Name = request.Name,
+                BornOn = request.BornOn ?? throw new ArgumentNullException($"{nameof(request.BornOn)} is required"),
+                ArrivedOn = request.ArrivedOn ?? throw new ArgumentNullException($"{nameof(request.ArrivedOn)} is required"),
+                SecretLanguage = Guid.NewGuid().ToString("X"),
+            };
 
-        var createResult = await _mediator.Send(createPetCommand, cancellationToken);
+            var createResult = await _mediator.Send(createPetCommand, cancellationToken);
 
-        return createResult.PetEntity;
+            return createResult.PetEntity;
+        }
+        catch (CommandException commandException)
+        {
+            var errorMessage = commandException.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.Forbidden
+                ? commandException.Message
+                : $"[{commandException.StatusCode.ToString()}]";
+            return new ObjectResult(errorMessage)
+            {
+                StatusCode = (int?)commandException.StatusCode,
+            };
+        }
     }
 
     [HttpGet]

@@ -9,17 +9,17 @@ using Newtonsoft.Json;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class AuditCommandsBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<AuditCommandsBehaviour<TRequest, TResponse>> _logger;
-    private readonly ICommandAuditingStorage _commandAuditingStorage;
+    private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
+    private readonly ICommandExecutionStorage _commandExecutionStorage;
 
-    public AuditCommandsBehaviour(
-        ILogger<AuditCommandsBehaviour<TRequest, TResponse>> logger,
-        ICommandAuditingStorage commandAuditingStorage)
+    public CommandExecutionRecordingPipeline(
+        ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> logger,
+        ICommandExecutionStorage commandExecutionStorage)
     {
         _logger = logger;
-        _commandAuditingStorage = commandAuditingStorage;
+        _commandExecutionStorage = commandExecutionStorage;
     }
 
     public async Task<TResponse> Handle(
@@ -29,19 +29,19 @@ internal class AuditCommandsBehaviour<TRequest, TResponse> : IPipelineBehavior<T
     {
         if (request is ICommandRequest commandRequest)
         {
-            return await ExecuteAndAudit(next, commandRequest, cancellationToken);
+            return await ExecuteAndRecord(next, commandRequest, cancellationToken);
         }
 
         return await next();
     }
 
-    private async Task<TResponse> ExecuteAndAudit(
+    private async Task<TResponse> ExecuteAndRecord(
         RequestHandlerDelegate<TResponse> next,
         ICommandRequest commandRequest,
         CancellationToken cancellationToken)
     {
         var executionEvent = new CommandExecutionEvent(commandRequest);
-        executionEvent = await _commandAuditingStorage.AddItemAsync(executionEvent, cancellationToken);
+        executionEvent = await _commandExecutionStorage.AddItemAsync(executionEvent, cancellationToken);
 
         var startTime = DateTime.UtcNow;
 
@@ -53,7 +53,7 @@ internal class AuditCommandsBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         try
         {
             response = await next();
-            result = response != null ? JsonConvert.SerializeObject(response, GetAuditResponseSerializerSettings()) : null;
+            result = response != null ? JsonConvert.SerializeObject(response, GetRecordResponseSerializerSettings()) : null;
             successful = true;
         }
         catch (Exception exception)
@@ -72,7 +72,7 @@ internal class AuditCommandsBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         executionEvent.ExecutionTimeInSeconds = (finishedTime - startTime).TotalSeconds;
         executionEvent.TotalTimeInSeconds = (finishedTime - commandRequest.CreatedOn).TotalSeconds;
 
-        executionEvent = await _commandAuditingStorage.UpsertItemAsync(executionEvent, cancellationToken);
+        executionEvent = await _commandExecutionStorage.UpsertItemAsync(executionEvent, cancellationToken);
 
         if (error != null)
         {
@@ -82,7 +82,7 @@ internal class AuditCommandsBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         return response;
     }
 
-    private static JsonSerializerSettings GetAuditResponseSerializerSettings()
+    private static JsonSerializerSettings GetRecordResponseSerializerSettings()
     {
         var jsonSerializerSettings = new JsonSerializerSettings();
         jsonSerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());

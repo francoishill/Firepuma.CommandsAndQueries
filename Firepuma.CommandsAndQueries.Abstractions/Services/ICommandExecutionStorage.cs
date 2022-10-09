@@ -2,7 +2,7 @@
 
 namespace Firepuma.CommandsAndQueries.Abstractions.Services;
 
-public interface ICommandAuditingStorage
+public interface ICommandExecutionStorage
 {
     Task<CommandExecutionEvent> AddItemAsync(CommandExecutionEvent executionEvent, CancellationToken cancellationToken);
     Task<CommandExecutionEvent> UpsertItemAsync(CommandExecutionEvent executionEvent, CancellationToken cancellationToken);

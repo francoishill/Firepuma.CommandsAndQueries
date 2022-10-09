@@ -8,11 +8,11 @@ using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
 
-public class CommandAuditingCosmosDbStorage : ICommandAuditingStorage
+internal class CommandExecutionCosmosDbStorage : ICommandExecutionStorage
 {
     private readonly ICommandExecutionRepository _commandExecutionRepository;
 
-    public CommandAuditingCosmosDbStorage(
+    public CommandExecutionCosmosDbStorage(
         ICommandExecutionRepository commandExecutionRepository)
     {
         _commandExecutionRepository = commandExecutionRepository;

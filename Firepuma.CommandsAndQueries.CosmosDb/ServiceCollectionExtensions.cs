@@ -17,11 +17,11 @@ public static class ServiceCollectionExtensions
     {
         if (commandHandlingOptions == null) throw new ArgumentNullException(nameof(commandHandlingOptions));
 
-        if (commandHandlingOptions.AddAuditing)
+        if (commandHandlingOptions.AddRecordingOfExecution)
         {
-            services.AddCosmosDbCommandAuditing(
+            services.AddCosmosDbCommandExecutionRecording(
                 commandHandlingOptions.CommandExecutionEventContainerName,
-                commandHandlingOptions.CommandAuditPartitionKeyGenerator);
+                commandHandlingOptions.CommandExecutionPartitionKeyGenerator);
         }
 
         if (commandHandlingOptions.AddAuthorizationBehaviorPipeline)
@@ -34,7 +34,7 @@ public static class ServiceCollectionExtensions
         services.AddCommandHandling(commandHandlingOptions);
     }
 
-    private static void AddCosmosDbCommandAuditing(
+    private static void AddCosmosDbCommandExecutionRecording(
         this IServiceCollection services,
         string containerName,
         Type partitionKeyGeneratorImplementationType)
@@ -42,13 +42,13 @@ public static class ServiceCollectionExtensions
         if (containerName == null) throw new ArgumentNullException(nameof(containerName));
         if (partitionKeyGeneratorImplementationType == null) throw new ArgumentNullException(nameof(partitionKeyGeneratorImplementationType));
 
-        if (!partitionKeyGeneratorImplementationType.IsAssignableTo(typeof(ICommandAuditPartitionKeyGenerator)))
+        if (!partitionKeyGeneratorImplementationType.IsAssignableTo(typeof(ICommandExecutionPartitionKeyGenerator)))
         {
             throw new InvalidOperationException(
-                $"{nameof(partitionKeyGeneratorImplementationType)} must implement interface {nameof(ICommandAuditPartitionKeyGenerator)}");
+                $"{nameof(partitionKeyGeneratorImplementationType)} must implement interface {nameof(ICommandExecutionPartitionKeyGenerator)}");
         }
 
-        services.AddSingleton(typeof(ICommandAuditPartitionKeyGenerator), partitionKeyGeneratorImplementationType);
+        services.AddSingleton(typeof(ICommandExecutionPartitionKeyGenerator), partitionKeyGeneratorImplementationType);
 
         services.AddCosmosDbRepository<
             CommandExecutionEvent,
@@ -60,7 +60,7 @@ public static class ServiceCollectionExtensions
                 container,
                 serviceProvider) => new CommandExecutionCosmosDbRepository(logger, container, serviceProvider));
 
-        services.AddTransient<ICommandAuditingStorage, CommandAuditingCosmosDbStorage>();
+        services.AddTransient<ICommandExecutionStorage, CommandExecutionCosmosDbStorage>();
     }
 
     private static void AddCosmosDbCommandAuthorization(

@@ -4,7 +4,7 @@ using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
 
-public class CommandAuthorizationCosmosDbStorage : ICommandAuthorizationStorage
+internal class CommandAuthorizationCosmosDbStorage : ICommandAuthorizationStorage
 {
     private readonly IAuthorizationFailureEventRepository _authorizationFailureEventRepository;
 

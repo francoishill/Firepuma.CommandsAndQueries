@@ -18,7 +18,7 @@ public class CosmosDbCommandHandlingOptions : CommandHandlingOptions
 
     #endregion
 
-    #region Auditing
+    #region Execution recording
 
     /// <summary>
     /// The CosmosDb container name for command execution events
@@ -26,9 +26,9 @@ public class CosmosDbCommandHandlingOptions : CommandHandlingOptions
     public string CommandExecutionEventContainerName { get; set; }
 
     /// <summary>
-    /// The service implementation to use as partition key generator for storing command auditing
+    /// The service implementation to use as partition key generator for storing command executions
     /// </summary>
-    public Type CommandAuditPartitionKeyGenerator { get; set; }
+    public Type CommandExecutionPartitionKeyGenerator { get; set; }
 
     #endregion
 }

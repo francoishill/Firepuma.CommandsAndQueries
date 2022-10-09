@@ -51,12 +51,12 @@ public class CommandHandlingOptions
 
     #endregion
 
-    #region Auditing
+    #region Execution recording
 
     /// <summary>
-    /// Add auditing of each command's execution, this will require ICommandAuditingStorage to have a registered implementation
+    /// Add recording of each command's execution, this will require ICommandExecutionStorage to have a registered implementation
     /// </summary>
-    public bool AddAuditing { get; set; } = true;
+    public bool AddRecordingOfExecution { get; set; } = true;
 
     #endregion
 }
