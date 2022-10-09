@@ -4,7 +4,6 @@ using Firepuma.DatabaseRepositories.CosmosDb;
 using MediatR;
 using Sample.CommandsAndQueriesApi.Configuration;
 using Sample.CommandsAndQueriesApi.Pets.Commands;
-using Sample.CommandsAndQueriesApi.Pets.Controllers;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.Repositories;
 using Sample.CommandsAndQueriesApi.Services;

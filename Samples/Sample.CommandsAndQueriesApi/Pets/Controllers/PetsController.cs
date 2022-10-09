@@ -1,7 +1,7 @@
-using System.Net;
 using Firepuma.CommandsAndQueries.Abstractions.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Sample.CommandsAndQueriesApi.HttpResponses;
 using Sample.CommandsAndQueriesApi.Pets.Commands;
 using Sample.CommandsAndQueriesApi.Pets.Controllers.Requests;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
@@ -43,13 +43,7 @@ public class PetsController : ControllerBase
         }
         catch (CommandException commandException)
         {
-            var errorMessage = commandException.StatusCode is HttpStatusCode.BadRequest or HttpStatusCode.Forbidden
-                ? commandException.Message
-                : $"[{commandException.StatusCode.ToString()}]";
-            return new ObjectResult(errorMessage)
-            {
-                StatusCode = (int?)commandException.StatusCode,
-            };
+            return commandException.CreateResponseMessageResult();
         }
     }
 
