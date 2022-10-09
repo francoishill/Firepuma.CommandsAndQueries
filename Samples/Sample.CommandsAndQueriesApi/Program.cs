@@ -58,7 +58,7 @@ builder.Services
             CommandExecutionPartitionKeyGenerator = typeof(CommandExecutionPartitionKeyGenerator),
             CommandExecutionEventContainerName = CosmosContainers.CommandExecutions.ContainerProperties.Id,
         });
-builder.Services.AddMediatR(typeof(PetsController));
+builder.Services.AddMediatR(assembliesWithCommandHandlers);
 
 var app = builder.Build();
 
