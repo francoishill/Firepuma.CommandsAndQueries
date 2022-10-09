@@ -19,17 +19,17 @@ public static class ServiceCollectionExtensions
 
         if (commandHandlingOptions.AddWrapCommandExceptionsPipelineBehavior)
         {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(WrapCommandExceptionsPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(WrapCommandExceptionPipeline<,>));
         }
 
         if (commandHandlingOptions.AddLoggingScopePipelineBehavior)
         {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingScopePipelineBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingScopePipeline<,>));
         }
 
         if (commandHandlingOptions.AddPerformanceLoggingPipelineBehavior)
         {
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogPipeline<,>));
         }
 
         if (commandHandlingOptions.AddValidationBehaviorPipeline)
@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
                     $" commandHandlingOptions.{nameof(commandHandlingOptions.AddValidationBehaviorPipeline)} is true");
             }
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorPipeline<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
             services.AddValidatorsFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies);
         }
 
@@ -61,7 +61,7 @@ public static class ServiceCollectionExtensions
                     $" commandHandlingOptions.{nameof(commandHandlingOptions.AddAuthorizationBehaviorPipeline)} is true");
             }
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehaviorPipeline<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipeline<,>));
             services.AddAuthorizersFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies);
         }
 

@@ -4,11 +4,11 @@ using MediatR;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-public sealed class ValidationBehaviorPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommandRequest, IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
-    public ValidationBehaviorPipeline(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
+    public ValidationPipeline(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
 
     public async Task<TResponse> Handle(
         TRequest request,

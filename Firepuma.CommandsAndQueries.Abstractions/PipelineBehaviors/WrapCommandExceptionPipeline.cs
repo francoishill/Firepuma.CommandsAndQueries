@@ -7,14 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-public class WrapCommandExceptionsPipelineBehavior<TRequest, TResponse>
+internal class WrapCommandExceptionPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<WrapCommandExceptionsPipelineBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger<WrapCommandExceptionPipeline<TRequest, TResponse>> _logger;
 
-    public WrapCommandExceptionsPipelineBehavior(
-        ILogger<WrapCommandExceptionsPipelineBehavior<TRequest, TResponse>> logger)
+    public WrapCommandExceptionPipeline(
+        ILogger<WrapCommandExceptionPipeline<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }

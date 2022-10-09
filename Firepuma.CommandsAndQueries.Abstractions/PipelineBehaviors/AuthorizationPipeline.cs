@@ -7,16 +7,16 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-public class AuthorizationBehaviorPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<AuthorizationBehaviorPipeline<TRequest, TResponse>> _logger;
+    private readonly ILogger<AuthorizationPipeline<TRequest, TResponse>> _logger;
     private readonly List<IAuthorizer<TRequest>> _authorizers;
     private readonly IMediator _mediator;
     private readonly ICommandAuthorizationStorage _commandAuthorizationStorage;
 
-    public AuthorizationBehaviorPipeline(
-        ILogger<AuthorizationBehaviorPipeline<TRequest, TResponse>> logger,
+    public AuthorizationPipeline(
+        ILogger<AuthorizationPipeline<TRequest, TResponse>> logger,
         IEnumerable<IAuthorizer<TRequest>> authorizers,
         IMediator mediator,
         ICommandAuthorizationStorage commandAuthorizationStorage)

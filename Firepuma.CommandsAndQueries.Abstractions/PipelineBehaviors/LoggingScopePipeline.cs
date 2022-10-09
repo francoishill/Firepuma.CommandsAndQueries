@@ -3,12 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class LoggingScopePipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal class LoggingScopePipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<LoggingScopePipelineBehaviour<TRequest, TResponse>> _logger;
+    private readonly ILogger<LoggingScopePipeline<TRequest, TResponse>> _logger;
 
-    public LoggingScopePipelineBehaviour(
-        ILogger<LoggingScopePipelineBehaviour<TRequest, TResponse>> logger)
+    public LoggingScopePipeline(
+        ILogger<LoggingScopePipeline<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }

@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-public class PerformanceLogPipelineBehavior<TRequest, TResponse>
+internal class PerformanceLogPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<PerformanceLogPipelineBehavior<TRequest, TResponse>> _logger;
+    private readonly ILogger<PerformanceLogPipeline<TRequest, TResponse>> _logger;
 
-    public PerformanceLogPipelineBehavior(ILogger<PerformanceLogPipelineBehavior<TRequest, TResponse>> logger)
+    public PerformanceLogPipeline(ILogger<PerformanceLogPipeline<TRequest, TResponse>> logger)
     {
         _logger = logger;
     }
