@@ -8,7 +8,7 @@ namespace Firepuma.CommandsAndQueries.Abstractions.Authorization
 
         protected void UseRequirement(IAuthorizationRequirement requirement)
         {
-            if (requirement == null) return;
+            if (requirement == null) throw new ArgumentNullException(nameof(requirement));
             _requirements.Add(requirement);
         }
 

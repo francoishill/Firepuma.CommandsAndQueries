@@ -13,7 +13,7 @@ internal static class CommandTypeNameHelpers
 
     public static string GetTypeNamespace(Type type)
     {
-        return type.Namespace;
+        return type.Namespace ?? "NO_NAMESPACE";
     }
 
     private static string TypeNameExcludingNamespace(Type type)

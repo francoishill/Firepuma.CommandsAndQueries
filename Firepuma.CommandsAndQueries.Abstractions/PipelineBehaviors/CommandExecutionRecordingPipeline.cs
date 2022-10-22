@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse?> where TRequest : IRequest<TResponse?>
 {
     private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
     private readonly ICommandExecutionStorage _commandExecutionStorage;
@@ -22,21 +22,22 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
         _commandExecutionStorage = commandExecutionStorage;
     }
 
-    public async Task<TResponse> Handle(
+    public async Task<TResponse?> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        RequestHandlerDelegate<TResponse?> next,
         CancellationToken cancellationToken)
     {
         if (request is ICommandRequest commandRequest)
         {
-            return await ExecuteAndRecord(next, commandRequest, cancellationToken);
+            var response = await ExecuteAndRecord(next, commandRequest, cancellationToken);
+            return response;
         }
 
         return await next();
     }
 
-    private async Task<TResponse> ExecuteAndRecord(
-        RequestHandlerDelegate<TResponse> next,
+    private async Task<TResponse?> ExecuteAndRecord(
+        RequestHandlerDelegate<TResponse?> next,
         ICommandRequest commandRequest,
         CancellationToken cancellationToken)
     {
@@ -45,10 +46,10 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
 
         var startTime = DateTime.UtcNow;
 
-        TResponse response = default;
+        TResponse? response = default;
 
-        string result = null;
-        Exception error = null;
+        string? result = null;
+        Exception? error = null;
         bool successful;
         try
         {

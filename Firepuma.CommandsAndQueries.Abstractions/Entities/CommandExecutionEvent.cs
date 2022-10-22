@@ -7,6 +7,8 @@ using Firepuma.DatabaseRepositories.Abstractions.Entities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+#pragma warning disable CS8618
+
 namespace Firepuma.CommandsAndQueries.Abstractions.Entities;
 
 [DebuggerDisplay("{ToString()}")]
@@ -20,9 +22,9 @@ public class CommandExecutionEvent : BaseEntity
     public DateTime CreatedOn { get; set; }
 
     public bool? Successful { get; set; }
-    public string Result { get; set; }
-    public string ErrorMessage { get; set; }
-    public string ErrorStackTrack { get; set; }
+    public string? Result { get; set; }
+    public string? ErrorMessage { get; set; }
+    public string? ErrorStackTrack { get; set; }
     public double ExecutionTimeInSeconds { get; set; }
     public double TotalTimeInSeconds { get; set; }
 
@@ -55,7 +57,7 @@ public class CommandExecutionEvent : BaseEntity
         {
             var property = base.CreateProperty(member, memberSerialization);
 
-            var ignoreProperty = (IgnoreCommandExecutionAttribute)property.AttributeProvider?.GetAttributes(typeof(IgnoreCommandExecutionAttribute), true).FirstOrDefault();
+            var ignoreProperty = (IgnoreCommandExecutionAttribute?)property.AttributeProvider?.GetAttributes(typeof(IgnoreCommandExecutionAttribute), true).FirstOrDefault();
 
             if (ignoreProperty != null)
             {

@@ -33,7 +33,7 @@ public class CommandHandlingOptions
     /// <summary>
     /// The assemblies to scan for command validation handlers
     /// </summary>
-    public Assembly[] ValidationHandlerMarkerAssemblies { get; set; }
+    public Assembly[]? ValidationHandlerMarkerAssemblies { get; set; }
 
     #endregion
 
@@ -47,7 +47,7 @@ public class CommandHandlingOptions
     /// <summary>
     /// The assemblies to scan for command authorization handlers
     /// </summary>
-    public Assembly[] AuthorizationHandlerMarkerAssemblies { get; set; }
+    public Assembly[]? AuthorizationHandlerMarkerAssemblies { get; set; }
 
     #endregion
 

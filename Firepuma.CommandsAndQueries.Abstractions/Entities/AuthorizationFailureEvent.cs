@@ -3,6 +3,8 @@ using Firepuma.CommandsAndQueries.Abstractions.Authorization;
 using Firepuma.CommandsAndQueries.Abstractions.Entities.Helpers;
 using Firepuma.DatabaseRepositories.Abstractions.Entities;
 
+#pragma warning disable CS8618
+
 namespace Firepuma.CommandsAndQueries.Abstractions.Entities;
 
 [DebuggerDisplay("{ToString()}")]

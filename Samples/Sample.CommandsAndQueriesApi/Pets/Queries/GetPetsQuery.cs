@@ -5,6 +5,8 @@ using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.QuerySpecifications;
 using Sample.CommandsAndQueriesApi.Pets.Repositories;
 
+#pragma warning disable CS8618
+
 namespace Sample.CommandsAndQueriesApi.Pets.Queries;
 
 public static class GetPetsQuery

@@ -1,5 +1,7 @@
 ﻿using System.Net;
 
+#pragma warning disable CS8618
+
 namespace Firepuma.CommandsAndQueries.Abstractions.Exceptions;
 
 public class CommandException : Exception

@@ -62,7 +62,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
 
                 failedRequirements.Add(new AuthorizationFailureEvent.FailedRequirement(
                     requirement,
-                    result.FailureMessage));
+                    result.FailureMessage ?? "[UNKNOWN FAILURE]"));
             }
             else
             {

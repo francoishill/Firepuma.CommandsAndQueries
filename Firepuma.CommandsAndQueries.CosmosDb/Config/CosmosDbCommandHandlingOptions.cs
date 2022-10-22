@@ -9,12 +9,12 @@ public class CosmosDbCommandHandlingOptions : CommandHandlingOptions
     /// <summary>
     /// The CosmosDb container name for command authorization failure events
     /// </summary>
-    public string AuthorizationFailureEventContainerName { get; set; }
+    public string AuthorizationFailureEventContainerName { get; set; } = null!;
 
     /// <summary>
     /// The service implementation to use as partition key generator for storing authorization failure events
     /// </summary>
-    public Type AuthorizationFailurePartitionKeyGenerator { get; set; }
+    public Type AuthorizationFailurePartitionKeyGenerator { get; set; } = null!;
 
     #endregion
 
@@ -23,12 +23,12 @@ public class CosmosDbCommandHandlingOptions : CommandHandlingOptions
     /// <summary>
     /// The CosmosDb container name for command execution events
     /// </summary>
-    public string CommandExecutionEventContainerName { get; set; }
+    public string CommandExecutionEventContainerName { get; set; } = null!;
 
     /// <summary>
     /// The service implementation to use as partition key generator for storing command executions
     /// </summary>
-    public Type CommandExecutionPartitionKeyGenerator { get; set; }
+    public Type CommandExecutionPartitionKeyGenerator { get; set; } = null!;
 
     #endregion
 }

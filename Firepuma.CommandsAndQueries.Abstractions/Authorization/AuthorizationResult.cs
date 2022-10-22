@@ -1,3 +1,4 @@
+#pragma warning disable CS8618
 namespace Firepuma.CommandsAndQueries.Abstractions.Authorization;
 
 public class AuthorizationResult
@@ -6,14 +7,14 @@ public class AuthorizationResult
     {
     }
 
-    private AuthorizationResult(bool isAuthorized, string failureMessage)
+    private AuthorizationResult(bool isAuthorized, string? failureMessage)
     {
         IsAuthorized = isAuthorized;
         FailureMessage = failureMessage;
     }
 
     public bool IsAuthorized { get; }
-    public string FailureMessage { get; set; }
+    public string? FailureMessage { get; set; }
 
     public static AuthorizationResult Fail()
     {

@@ -8,6 +8,8 @@ using Sample.CommandsAndQueriesApi.AuthorizationRequirements;
 using Sample.CommandsAndQueriesApi.Pets.Entities;
 using Sample.CommandsAndQueriesApi.Pets.Repositories;
 
+#pragma warning disable CS8618
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Local
 // ReSharper disable RedundantAssignment
