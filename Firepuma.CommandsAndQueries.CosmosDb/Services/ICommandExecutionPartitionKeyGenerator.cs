@@ -1,8 +1,8 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.Entities;
+﻿using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
 
 public interface ICommandExecutionPartitionKeyGenerator
 {
-    string GeneratePartitionKey(CommandExecutionEvent entity);
+    string GeneratePartitionKey(CommandExecutionCosmosDbEvent entity);
 }

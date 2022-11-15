@@ -1,4 +1,4 @@
-using Firepuma.CommandsAndQueries.Abstractions.Entities;
+using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Services;
 using Firepuma.DatabaseRepositories.CosmosDb.Repositories;
 using Microsoft.Azure.Cosmos;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
-internal class CommandExecutionCosmosDbRepository : CosmosDbRepository<CommandExecutionEvent>, ICommandExecutionRepository
+internal class CommandExecutionCosmosDbRepository : CosmosDbRepository<CommandExecutionCosmosDbEvent>, ICommandExecutionRepository
 {
     private readonly ICommandExecutionPartitionKeyGenerator _partitionKeyGenerator;
 
@@ -20,7 +20,7 @@ internal class CommandExecutionCosmosDbRepository : CosmosDbRepository<CommandEx
         _partitionKeyGenerator = serviceProvider.GetRequiredService<ICommandExecutionPartitionKeyGenerator>();
     }
 
-    protected override string GenerateId(CommandExecutionEvent entity)
+    protected override string GenerateId(CommandExecutionCosmosDbEvent entity)
     {
         var partitionKey = _partitionKeyGenerator.GeneratePartitionKey(entity);
         entity.PartitionKey = partitionKey;

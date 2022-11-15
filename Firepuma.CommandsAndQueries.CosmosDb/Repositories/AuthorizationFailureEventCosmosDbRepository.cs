@@ -1,4 +1,4 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.Entities;
+﻿using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Services;
 using Firepuma.DatabaseRepositories.CosmosDb.Repositories;
 using Microsoft.Azure.Cosmos;
@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
-internal class AuthorizationFailureEventCosmosDbRepository : CosmosDbRepository<AuthorizationFailureEvent>, IAuthorizationFailureEventRepository
+internal class AuthorizationFailureEventCosmosDbRepository : CosmosDbRepository<AuthorizationFailureCosmosDbEvent>, IAuthorizationFailureEventRepository
 {
     private readonly IAuthorizationFailurePartitionKeyGenerator _partitionKeyGenerator;
 
@@ -20,7 +20,7 @@ internal class AuthorizationFailureEventCosmosDbRepository : CosmosDbRepository<
         _partitionKeyGenerator = serviceProvider.GetRequiredService<IAuthorizationFailurePartitionKeyGenerator>();
     }
 
-    protected override string GenerateId(AuthorizationFailureEvent entity)
+    protected override string GenerateId(AuthorizationFailureCosmosDbEvent entity)
     {
         var partitionKey = _partitionKeyGenerator.GeneratePartitionKey(entity);
         entity.PartitionKey = partitionKey;

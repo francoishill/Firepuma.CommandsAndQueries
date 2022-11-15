@@ -1,8 +1,8 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.Entities;
+﻿using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.DatabaseRepositories.Abstractions.Repositories;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
-public interface IAuthorizationFailureEventRepository : IRepository<AuthorizationFailureEvent>
+internal interface IAuthorizationFailureEventRepository : IRepository<AuthorizationFailureCosmosDbEvent>
 {
 }

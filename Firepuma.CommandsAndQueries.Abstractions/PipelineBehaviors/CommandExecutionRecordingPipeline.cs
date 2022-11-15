@@ -1,5 +1,4 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Commands;
-using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.CommandsAndQueries.Abstractions.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -41,7 +40,7 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
         ICommandRequest commandRequest,
         CancellationToken cancellationToken)
     {
-        var executionEvent = new CommandExecutionEvent(commandRequest);
+        var executionEvent = _commandExecutionStorage.CreateNewItem(commandRequest);
         executionEvent = await _commandExecutionStorage.AddItemAsync(executionEvent, cancellationToken);
 
         var startTime = DateTime.UtcNow;

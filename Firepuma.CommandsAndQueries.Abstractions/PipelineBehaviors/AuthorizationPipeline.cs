@@ -49,7 +49,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
 
         _logger.LogDebug("Request '{Type}' has {Count} authorization requirements", request.GetType().FullName, requirements.Count);
 
-        var failedRequirements = new List<AuthorizationFailureEvent.FailedRequirement>();
+        var failedRequirements = new List<BaseAuthorizationFailureEvent.FailedRequirement>();
 
         foreach (var requirement in requirements.Distinct())
         {
@@ -60,7 +60,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
                 _logger.LogDebug("Requirement '{Requirement}' is not met for request type '{Type}', failure message: '{Message}'",
                     requirement.GetType().FullName, request.GetType().FullName, result.FailureMessage);
 
-                failedRequirements.Add(new AuthorizationFailureEvent.FailedRequirement(
+                failedRequirements.Add(new BaseAuthorizationFailureEvent.FailedRequirement(
                     requirement,
                     result.FailureMessage ?? "[UNKNOWN FAILURE]"));
             }
@@ -85,12 +85,12 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
 
     private async Task StoreAuthorizationFailedEvent(
         TRequest request,
-        List<AuthorizationFailureEvent.FailedRequirement> failedRequirements,
+        List<BaseAuthorizationFailureEvent.FailedRequirement> failedRequirements,
         CancellationToken cancellationToken)
     {
         try
         {
-            var authorizationFailureEvent = new AuthorizationFailureEvent(
+            var authorizationFailureEvent = _commandAuthorizationStorage.CreateNewItem(
                 request.GetType(),
                 request,
                 failedRequirements.ToArray());

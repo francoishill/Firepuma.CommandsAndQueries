@@ -1,5 +1,6 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.CommandsAndQueries.Abstractions.Services;
+using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
@@ -14,10 +15,20 @@ internal class CommandAuthorizationCosmosDbStorage : ICommandAuthorizationStorag
         _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
-    public async Task<AuthorizationFailureEvent> AddItemAsync(AuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
+    public BaseAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, BaseAuthorizationFailureEvent.FailedRequirement[] failedRequirements)
     {
+        return new AuthorizationFailureCosmosDbEvent(actionType, actionPayload, failedRequirements.ToArray());
+    }
+
+    public async Task<BaseAuthorizationFailureEvent> AddItemAsync(BaseAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
+    {
+        if (executionEvent is not AuthorizationFailureCosmosDbEvent executionCosmosDbEvent)
+        {
+            throw new ArgumentException($"Argument {nameof(executionEvent)} is expected to be of type {nameof(AuthorizationFailureCosmosDbEvent)}", nameof(executionEvent));
+        }
+
         return await _authorizationFailureEventRepository.AddItemAsync(
-            executionEvent,
+            executionCosmosDbEvent,
             cancellationToken);
     }
 }

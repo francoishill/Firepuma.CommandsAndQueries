@@ -1,5 +1,7 @@
+using Firepuma.CommandsAndQueries.Abstractions.Commands;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.CommandsAndQueries.Abstractions.Services;
+using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 // ReSharper disable ArgumentsStyleNamedExpression
@@ -18,17 +20,32 @@ internal class CommandExecutionCosmosDbStorage : ICommandExecutionStorage
         _commandExecutionRepository = commandExecutionRepository;
     }
 
-    public async Task<CommandExecutionEvent> AddItemAsync(CommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public BaseCommandExecutionEvent CreateNewItem(ICommandRequest commandRequest)
     {
+        return new CommandExecutionCosmosDbEvent(commandRequest);
+    }
+
+    public async Task<BaseCommandExecutionEvent> AddItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    {
+        if (executionEvent is not CommandExecutionCosmosDbEvent executionCosmosDbEvent)
+        {
+            throw new ArgumentException($"Argument {nameof(executionEvent)} is expected to be of type {nameof(CommandExecutionCosmosDbEvent)}", nameof(executionEvent));
+        }
+
         return await _commandExecutionRepository.AddItemAsync(
-            executionEvent,
+            executionCosmosDbEvent,
             cancellationToken);
     }
 
-    public async Task<CommandExecutionEvent> UpsertItemAsync(CommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<BaseCommandExecutionEvent> UpsertItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
     {
+        if (executionEvent is not CommandExecutionCosmosDbEvent executionCosmosDbEvent)
+        {
+            throw new ArgumentException($"Argument {nameof(executionEvent)} is expected to be of type {nameof(CommandExecutionCosmosDbEvent)}", nameof(executionEvent));
+        }
+
         return await _commandExecutionRepository.UpsertItemAsync(
-            executionEvent,
+            executionCosmosDbEvent,
             ignoreETag: false,
             cancellationToken: cancellationToken);
     }

@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{47D0B709-F2E4-4027-8855-E783EF991112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CommandsAndQueriesApi", "Samples\Sample.CommandsAndQueriesApi\Sample.CommandsAndQueriesApi.csproj", "{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CommandsAndQueriesApi.CosmosDb", "Samples\Sample.CommandsAndQueriesApi.CosmosDb\Sample.CommandsAndQueriesApi.CosmosDb.csproj", "{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{76B9DBCD-BAB1-47B2-BD2A-43B2EEAE3948}"
 EndProject
@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries.Tests", "Firepuma.CommandsAndQueries.Tests\Firepuma.CommandsAndQueries.Tests.csproj", "{344A29C6-484B-426E-88C7-0BA0BDADA18B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firepuma.CommandsAndQueries.MongoDb", "Firepuma.CommandsAndQueries.MongoDb\Firepuma.CommandsAndQueries.MongoDb.csproj", "{3D2F660C-B78E-4BD1-9B58-53446C0D5E1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CommandsAndQueriesApi.MongoDb", "Samples\Sample.CommandsAndQueriesApi.MongoDb\Sample.CommandsAndQueriesApi.MongoDb.csproj", "{5AE55318-17E2-4AAE-8B52-B8878682DC47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +50,19 @@ Global
 		{344A29C6-484B-426E-88C7-0BA0BDADA18B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{344A29C6-484B-426E-88C7-0BA0BDADA18B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{344A29C6-484B-426E-88C7-0BA0BDADA18B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D2F660C-B78E-4BD1-9B58-53446C0D5E1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D2F660C-B78E-4BD1-9B58-53446C0D5E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D2F660C-B78E-4BD1-9B58-53446C0D5E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D2F660C-B78E-4BD1-9B58-53446C0D5E1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AE55318-17E2-4AAE-8B52-B8878682DC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE55318-17E2-4AAE-8B52-B8878682DC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE55318-17E2-4AAE-8B52-B8878682DC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE55318-17E2-4AAE-8B52-B8878682DC47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2D9ED24-34D8-4F98-BDEE-23C1946E74B0} = {47D0B709-F2E4-4027-8855-E783EF991112}
 		{76B9DBCD-BAB1-47B2-BD2A-43B2EEAE3948} = {695148EC-63BB-46B4-9655-0102DF3AB77C}
 		{0136046D-CA41-444B-8B30-2D1136E4ED19} = {76B9DBCD-BAB1-47B2-BD2A-43B2EEAE3948}
+		{5AE55318-17E2-4AAE-8B52-B8878682DC47} = {47D0B709-F2E4-4027-8855-E783EF991112}
 	EndGlobalSection
 EndGlobal

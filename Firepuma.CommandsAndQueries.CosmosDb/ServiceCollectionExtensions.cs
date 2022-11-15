@@ -1,7 +1,7 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions;
-using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.CommandsAndQueries.Abstractions.Services;
 using Firepuma.CommandsAndQueries.CosmosDb.Config;
+using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 using Firepuma.CommandsAndQueries.CosmosDb.Services;
 using Firepuma.DatabaseRepositories.CosmosDb;
@@ -51,14 +51,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(typeof(ICommandExecutionPartitionKeyGenerator), partitionKeyGeneratorImplementationType);
 
         services.AddCosmosDbRepository<
-            CommandExecutionEvent,
+            CommandExecutionCosmosDbEvent,
             ICommandExecutionRepository,
             CommandExecutionCosmosDbRepository>(
             containerName,
-            (
-                logger,
-                container,
-                serviceProvider) => new CommandExecutionCosmosDbRepository(logger, container, serviceProvider));
+            (logger, container, serviceProvider) => new CommandExecutionCosmosDbRepository(logger, container, serviceProvider));
 
         services.AddTransient<ICommandExecutionStorage, CommandExecutionCosmosDbStorage>();
     }
@@ -80,14 +77,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(typeof(IAuthorizationFailurePartitionKeyGenerator), partitionKeyGeneratorImplementationType);
 
         services.AddCosmosDbRepository<
-            AuthorizationFailureEvent,
+            AuthorizationFailureCosmosDbEvent,
             IAuthorizationFailureEventRepository,
             AuthorizationFailureEventCosmosDbRepository>(
             containerName,
-            (
-                logger,
-                container,
-                serviceProvider) => new AuthorizationFailureEventCosmosDbRepository(logger, container, serviceProvider));
+            (logger, container, serviceProvider) => new AuthorizationFailureEventCosmosDbRepository(logger, container, serviceProvider));
 
         services.AddTransient<ICommandAuthorizationStorage, CommandAuthorizationCosmosDbStorage>();
     }

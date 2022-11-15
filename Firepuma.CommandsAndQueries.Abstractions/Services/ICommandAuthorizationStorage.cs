@@ -4,5 +4,7 @@ namespace Firepuma.CommandsAndQueries.Abstractions.Services;
 
 public interface ICommandAuthorizationStorage
 {
-    Task<AuthorizationFailureEvent> AddItemAsync(AuthorizationFailureEvent executionEvent, CancellationToken cancellationToken);
+    BaseAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, BaseAuthorizationFailureEvent.FailedRequirement[] failedRequirements);
+
+    Task<BaseAuthorizationFailureEvent> AddItemAsync(BaseAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken);
 }
