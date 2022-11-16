@@ -49,7 +49,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
 
         _logger.LogDebug("Request '{Type}' has {Count} authorization requirements", request.GetType().FullName, requirements.Count);
 
-        var failedRequirements = new List<BaseAuthorizationFailureEvent.FailedRequirement>();
+        var failedRequirements = new List<FailedAuthorizationRequirement>();
 
         foreach (var requirement in requirements.Distinct())
         {
@@ -60,7 +60,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
                 _logger.LogDebug("Requirement '{Requirement}' is not met for request type '{Type}', failure message: '{Message}'",
                     requirement.GetType().FullName, request.GetType().FullName, result.FailureMessage);
 
-                failedRequirements.Add(new BaseAuthorizationFailureEvent.FailedRequirement(
+                failedRequirements.Add(new FailedAuthorizationRequirement(
                     requirement,
                     result.FailureMessage ?? "[UNKNOWN FAILURE]"));
             }
@@ -85,7 +85,7 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
 
     private async Task StoreAuthorizationFailedEvent(
         TRequest request,
-        List<BaseAuthorizationFailureEvent.FailedRequirement> failedRequirements,
+        List<FailedAuthorizationRequirement> failedRequirements,
         CancellationToken cancellationToken)
     {
         try
@@ -94,6 +94,13 @@ internal class AuthorizationPipeline<TRequest, TResponse> : IPipelineBehavior<TR
                 request.GetType(),
                 request,
                 failedRequirements.ToArray());
+
+            authorizationFailureEvent.CreatedOn = DateTime.UtcNow;
+
+            authorizationFailureEvent.ActionTypeName = AuthorizationFailureEventHelpers.GetActionTypeName(request.GetType());
+            authorizationFailureEvent.ActionTypeNamespace = AuthorizationFailureEventHelpers.GetActionTypeNamespace(request.GetType());
+            authorizationFailureEvent.ActionPayload = request;
+            authorizationFailureEvent.FailedRequirements = failedRequirements.ToArray();
 
             await _commandAuthorizationStorage.AddItemAsync(authorizationFailureEvent, cancellationToken);
         }

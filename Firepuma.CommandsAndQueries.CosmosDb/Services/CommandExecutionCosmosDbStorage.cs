@@ -5,7 +5,6 @@ using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
 // ReSharper disable ArgumentsStyleNamedExpression
-
 // ReSharper disable ClassNeverInstantiated.Global
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Services;
@@ -20,12 +19,12 @@ internal class CommandExecutionCosmosDbStorage : ICommandExecutionStorage
         _commandExecutionRepository = commandExecutionRepository;
     }
 
-    public BaseCommandExecutionEvent CreateNewItem(ICommandRequest commandRequest)
+    public ICommandExecutionEvent CreateNewItem(ICommandRequest commandRequest)
     {
-        return new CommandExecutionCosmosDbEvent(commandRequest);
+        return new CommandExecutionCosmosDbEvent();
     }
 
-    public async Task<BaseCommandExecutionEvent> AddItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<ICommandExecutionEvent> AddItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not CommandExecutionCosmosDbEvent executionCosmosDbEvent)
         {
@@ -37,7 +36,7 @@ internal class CommandExecutionCosmosDbStorage : ICommandExecutionStorage
             cancellationToken);
     }
 
-    public async Task<BaseCommandExecutionEvent> UpsertItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<ICommandExecutionEvent> UpsertItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not CommandExecutionCosmosDbEvent executionCosmosDbEvent)
         {

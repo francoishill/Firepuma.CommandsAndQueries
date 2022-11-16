@@ -15,12 +15,12 @@ internal class CommandAuthorizationCosmosDbStorage : ICommandAuthorizationStorag
         _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
-    public BaseAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, BaseAuthorizationFailureEvent.FailedRequirement[] failedRequirements)
+    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, FailedAuthorizationRequirement[] failedRequirements)
     {
-        return new AuthorizationFailureCosmosDbEvent(actionType, actionPayload, failedRequirements.ToArray());
+        return new AuthorizationFailureCosmosDbEvent();
     }
 
-    public async Task<BaseAuthorizationFailureEvent> AddItemAsync(BaseAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<IAuthorizationFailureEvent> AddItemAsync(IAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not AuthorizationFailureCosmosDbEvent executionCosmosDbEvent)
         {

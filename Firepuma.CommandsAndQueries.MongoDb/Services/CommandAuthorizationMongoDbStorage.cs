@@ -15,12 +15,12 @@ internal class CommandAuthorizationMongoDbStorage : ICommandAuthorizationStorage
         _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
-    public BaseAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, BaseAuthorizationFailureEvent.FailedRequirement[] failedRequirements)
+    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, FailedAuthorizationRequirement[] failedRequirements)
     {
-        return new AuthorizationFailureMongoDbEvent(actionType, actionPayload, failedRequirements.ToArray());
+        return new AuthorizationFailureMongoDbEvent();
     }
 
-    public async Task<BaseAuthorizationFailureEvent> AddItemAsync(BaseAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<IAuthorizationFailureEvent> AddItemAsync(IAuthorizationFailureEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not AuthorizationFailureMongoDbEvent executionMongoDbEvent)
         {

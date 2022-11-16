@@ -20,12 +20,12 @@ internal class CommandExecutionMongoDbStorage : ICommandExecutionStorage
         _commandExecutionRepository = commandExecutionRepository;
     }
 
-    public BaseCommandExecutionEvent CreateNewItem(ICommandRequest commandRequest)
+    public ICommandExecutionEvent CreateNewItem(ICommandRequest commandRequest)
     {
-        return new CommandExecutionMongoDbEvent(commandRequest);
+        return new CommandExecutionMongoDbEvent();
     }
 
-    public async Task<BaseCommandExecutionEvent> AddItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<ICommandExecutionEvent> AddItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not CommandExecutionMongoDbEvent executionMongoDbEvent)
         {
@@ -37,7 +37,7 @@ internal class CommandExecutionMongoDbStorage : ICommandExecutionStorage
             cancellationToken);
     }
 
-    public async Task<BaseCommandExecutionEvent> UpsertItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task<ICommandExecutionEvent> UpsertItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken)
     {
         if (executionEvent is not CommandExecutionMongoDbEvent executionMongoDbEvent)
         {

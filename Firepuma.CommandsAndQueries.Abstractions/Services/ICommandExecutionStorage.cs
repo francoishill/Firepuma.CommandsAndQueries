@@ -5,8 +5,8 @@ namespace Firepuma.CommandsAndQueries.Abstractions.Services;
 
 public interface ICommandExecutionStorage
 {
-    BaseCommandExecutionEvent CreateNewItem(ICommandRequest commandRequest);
+    ICommandExecutionEvent CreateNewItem(ICommandRequest commandRequest);
 
-    Task<BaseCommandExecutionEvent> AddItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken);
-    Task<BaseCommandExecutionEvent> UpsertItemAsync(BaseCommandExecutionEvent executionEvent, CancellationToken cancellationToken);
+    Task<ICommandExecutionEvent> AddItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken);
+    Task<ICommandExecutionEvent> UpsertItemAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken);
 }

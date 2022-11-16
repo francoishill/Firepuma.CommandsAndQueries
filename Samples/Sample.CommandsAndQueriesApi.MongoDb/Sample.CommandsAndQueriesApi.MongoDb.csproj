@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb" Version="0.9.1" />
+        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb" Version="0.10.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
