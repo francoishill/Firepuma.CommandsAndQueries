@@ -34,7 +34,7 @@ public class PetsController : ControllerBase
                 Name = request.Name,
                 BornOn = request.BornOn ?? throw new ArgumentNullException($"{nameof(request.BornOn)} is required"),
                 ArrivedOn = request.ArrivedOn ?? throw new ArgumentNullException($"{nameof(request.ArrivedOn)} is required"),
-                SecretLanguage = Guid.NewGuid().ToString("X"),
+                SecretLanguage = Guid.NewGuid().ToString("D"),
             };
 
             var createResult = await _mediator.Send(createPetCommand, cancellationToken);

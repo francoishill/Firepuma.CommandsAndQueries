@@ -10,6 +10,4 @@ public class PetMongoDbRepository : MongoDbRepository<PetEntity>, IPetRepository
         : base(logger, collection)
     {
     }
-
-    protected override string GenerateId(PetEntity entity) => $"{Guid.NewGuid().ToString()}:{entity.Type}";
 }
