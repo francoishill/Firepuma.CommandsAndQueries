@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
-using Firepuma.DatabaseRepositories.CosmosDb.Entities;
+using Firepuma.DatabaseRepositories.CosmosDb.Abstractions.Entities;
 
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor

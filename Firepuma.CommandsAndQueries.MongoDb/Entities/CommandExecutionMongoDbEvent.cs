@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
-using Firepuma.DatabaseRepositories.MongoDb.Entities;
+using Firepuma.DatabaseRepositories.MongoDb.Abstractions.Entities;
 
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor
