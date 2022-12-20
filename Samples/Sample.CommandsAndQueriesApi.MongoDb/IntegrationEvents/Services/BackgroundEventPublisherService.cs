@@ -56,10 +56,22 @@ public class BackgroundEventPublisherService : BackgroundService
                             commandExecution.Id, commandExecution.CommandId, previousLockUnixSecondsObj, lockExpiryDate?.ToString("O"));
                     }
 
-                    // lock for a short while, to ensure we don't have duplicate processing
-                    var soonUnixSeconds = DateTimeOffset.UtcNow.AddMinutes(2).ToUnixTimeSeconds();
-                    commandExecution.ExtraValues[ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] = soonUnixSeconds;
-                    await _commandExecutionRepository.UpsertItemAsync(commandExecution, ignoreETag: false, stoppingToken);
+                    try
+                    {
+                        // lock for a short while, to ensure we don't have duplicate processing
+                        var soonUnixSeconds = DateTimeOffset.UtcNow.AddMinutes(2).ToUnixTimeSeconds();
+                        commandExecution.ExtraValues[ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] = soonUnixSeconds;
+                        await _commandExecutionRepository.UpsertItemAsync(commandExecution, ignoreETag: false, stoppingToken);
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogWarning(
+                            exception,
+                            "Failed to obtain lock for publishing integration event for command execution document id {DocumentId}, command id {CommandId}",
+                            commandExecution.Id, commandExecution.CommandId);
+
+                        continue;
+                    }
 
                     try
                     {
