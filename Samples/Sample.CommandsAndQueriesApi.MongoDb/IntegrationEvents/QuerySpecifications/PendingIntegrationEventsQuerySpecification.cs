@@ -10,7 +10,8 @@ internal class PendingIntegrationEventsQuerySpecification : QuerySpecification<C
     {
         var nowUnixSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         WhereExpressions.Add(c =>
-            c.ExtraValues.ContainsKey(IntegrationEventExtraValuesKeys.PAYLOAD_JSON)
+            c.Successful == true
+            && c.ExtraValues.ContainsKey(IntegrationEventExtraValuesKeys.PAYLOAD_JSON)
             && !c.ExtraValues.ContainsKey(IntegrationEventExtraValuesKeys.PUBLISH_RESULT_TIME)
             && (
                 c.ExtraValues[IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] == null

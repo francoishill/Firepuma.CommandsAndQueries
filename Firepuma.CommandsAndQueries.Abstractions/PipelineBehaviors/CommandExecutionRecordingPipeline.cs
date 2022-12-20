@@ -14,15 +14,18 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
     private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
     private readonly ICommandExecutionStorage _commandExecutionStorage;
     private readonly IEnumerable<ICommandExecutionDecorator> _commandExecutionDecorators;
+    private readonly IEnumerable<ICommandExecutionPostProcessor> _commandExecutionPostProcessors;
 
     public CommandExecutionRecordingPipeline(
         ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> logger,
         ICommandExecutionStorage commandExecutionStorage,
-        IEnumerable<ICommandExecutionDecorator> commandExecutionDecorators)
+        IEnumerable<ICommandExecutionDecorator> commandExecutionDecorators,
+        IEnumerable<ICommandExecutionPostProcessor> commandExecutionPostProcessors)
     {
         _logger = logger;
         _commandExecutionStorage = commandExecutionStorage;
         _commandExecutionDecorators = commandExecutionDecorators;
+        _commandExecutionPostProcessors = commandExecutionPostProcessors;
     }
 
     public async Task<TResponse?> Handle(
@@ -81,7 +84,7 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
         {
             try
             {
-                commandExecutionDecorator.ExecutionEvent(executionEvent, commandRequest, successful, response, error);
+                commandExecutionDecorator.Decorate(executionEvent, commandRequest, successful, response, error);
             }
             catch (Exception exception)
             {
@@ -101,6 +104,28 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
         executionEvent.TotalTimeInSeconds = (finishedTime - commandRequest.CreatedOn).TotalSeconds;
 
         executionEvent = await _commandExecutionStorage.UpsertItemAsync(executionEvent, cancellationToken);
+
+        foreach (var commandExecutionPostProcessor in _commandExecutionPostProcessors)
+        {
+            try
+            {
+                await commandExecutionPostProcessor.ProcessAsync(
+                    executionEvent,
+                    commandRequest,
+                    successful,
+                    response,
+                    error,
+                    cancellationToken);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(
+                    exception,
+                    "Failed to execute CommandExecutionPostProcessor type {Type}, error: {Error}",
+                    commandExecutionPostProcessor.GetType().FullName,
+                    exception.Message);
+            }
+        }
 
         if (error != null)
         {

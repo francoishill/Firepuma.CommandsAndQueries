@@ -6,7 +6,7 @@ using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Constants;
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Services;
 
-public class CommandExecutionIntegrationEventDecorator : ICommandExecutionDecorator
+internal class CommandExecutionIntegrationEventDecorator : ICommandExecutionDecorator
 {
     private readonly ILogger<CommandExecutionIntegrationEventDecorator> _logger;
 
@@ -16,7 +16,7 @@ public class CommandExecutionIntegrationEventDecorator : ICommandExecutionDecora
         _logger = logger;
     }
 
-    public void ExecutionEvent<TResponse>(
+    public void Decorate<TResponse>(
         ICommandExecutionEvent executionEvent,
         ICommandRequest command,
         bool successful,

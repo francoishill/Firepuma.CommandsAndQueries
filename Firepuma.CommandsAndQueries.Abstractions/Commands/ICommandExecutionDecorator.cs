@@ -4,7 +4,7 @@ namespace Firepuma.CommandsAndQueries.Abstractions.Commands;
 
 public interface ICommandExecutionDecorator
 {
-    void ExecutionEvent<TResponse>(
+    void Decorate<TResponse>(
         ICommandExecutionEvent executionEvent,
         ICommandRequest command,
         bool successful,
