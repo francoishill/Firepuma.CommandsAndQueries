@@ -10,10 +10,10 @@ internal class PendingIntegrationEventsQuerySpecification : QuerySpecification<C
     {
         var nowUnixSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         WhereExpressions.Add(c =>
-            c.ExtraValues.ContainsKey(ExtraValuesKeys.PAYLOAD_JSON)
-            && !c.ExtraValues.ContainsKey(ExtraValuesKeys.PUBLISH_RESULT_TIME)
+            c.ExtraValues.ContainsKey(IntegrationEventExtraValuesKeys.PAYLOAD_JSON)
+            && !c.ExtraValues.ContainsKey(IntegrationEventExtraValuesKeys.PUBLISH_RESULT_TIME)
             && (
-                c.ExtraValues[ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] == null
-                || (int?)c.ExtraValues[ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] < nowUnixSeconds));
+                c.ExtraValues[IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] == null
+                || (int?)c.ExtraValues[IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] < nowUnixSeconds));
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Constants;
 
-internal static class ExtraValuesKeys
+internal static class IntegrationEventExtraValuesKeys
 {
     public const string PAYLOAD_JSON = "integration_event_payload_json";
     public const string LOCK_UNTIL_UNIX_SECONDS = "integration_event_lock_until_unix_seconds";

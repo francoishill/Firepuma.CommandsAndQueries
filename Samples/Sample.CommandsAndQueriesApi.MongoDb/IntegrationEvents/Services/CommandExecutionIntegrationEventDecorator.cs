@@ -44,7 +44,7 @@ public class CommandExecutionIntegrationEventDecorator : ICommandExecutionDecora
             integrationEventPayload,
             GetIntegrationEventPayloadSerializerSettings());
 
-        executionEvent.ExtraValues[ExtraValuesKeys.PAYLOAD_JSON] = integrationEventPayloadJson;
+        executionEvent.ExtraValues[IntegrationEventExtraValuesKeys.PAYLOAD_JSON] = integrationEventPayloadJson;
     }
 
     private static JsonSerializerSettings GetIntegrationEventPayloadSerializerSettings()

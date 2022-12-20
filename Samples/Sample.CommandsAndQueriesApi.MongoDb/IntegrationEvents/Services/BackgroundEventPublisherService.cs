@@ -33,16 +33,16 @@ public class BackgroundEventPublisherService : BackgroundService
 
                 foreach (var commandExecution in items)
                 {
-                    if (!commandExecution.ExtraValues.TryGetValue(ExtraValuesKeys.PAYLOAD_JSON, out var eventPayloadJson)
+                    if (!commandExecution.ExtraValues.TryGetValue(IntegrationEventExtraValuesKeys.PAYLOAD_JSON, out var eventPayloadJson)
                         || eventPayloadJson?.ToString() == null)
                     {
                         _logger.LogWarning(
                             "Unable to extract {PayloadField} from command execution document id {DocumentId}, command id {CommandId}",
-                            ExtraValuesKeys.PAYLOAD_JSON, commandExecution.Id, commandExecution.CommandId);
+                            IntegrationEventExtraValuesKeys.PAYLOAD_JSON, commandExecution.Id, commandExecution.CommandId);
                         continue;
                     }
 
-                    if (commandExecution.ExtraValues.TryGetValue(ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS, out var previousLockUnixSecondsObj))
+                    if (commandExecution.ExtraValues.TryGetValue(IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS, out var previousLockUnixSecondsObj))
                     {
                         DateTimeOffset? lockExpiryDate = null;
                         if (previousLockUnixSecondsObj is long previousLockUnixSeconds)
@@ -60,7 +60,7 @@ public class BackgroundEventPublisherService : BackgroundService
                     {
                         // lock for a short while, to ensure we don't have duplicate processing
                         var soonUnixSeconds = DateTimeOffset.UtcNow.AddMinutes(2).ToUnixTimeSeconds();
-                        commandExecution.ExtraValues[ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] = soonUnixSeconds;
+                        commandExecution.ExtraValues[IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS] = soonUnixSeconds;
                         await _commandExecutionRepository.UpsertItemAsync(commandExecution, ignoreETag: false, stoppingToken);
                     }
                     catch (Exception exception)
@@ -111,7 +111,7 @@ public class BackgroundEventPublisherService : BackgroundService
                             });
                     }
 
-                    commandExecution.ExtraValues.Remove(ExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS);
+                    commandExecution.ExtraValues.Remove(IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS);
                     await _commandExecutionRepository.UpsertItemAsync(commandExecution, ignoreETag: false, stoppingToken);
                 }
             }
@@ -132,12 +132,12 @@ public class BackgroundEventPublisherService : BackgroundService
         bool isSuccessful,
         PublishError? error)
     {
-        commandExecution.ExtraValues[ExtraValuesKeys.PUBLISH_RESULT_TIME] = dateTime;
-        commandExecution.ExtraValues[ExtraValuesKeys.PUBLISH_RESULT_SUCCESS] = isSuccessful;
+        commandExecution.ExtraValues[IntegrationEventExtraValuesKeys.PUBLISH_RESULT_TIME] = dateTime;
+        commandExecution.ExtraValues[IntegrationEventExtraValuesKeys.PUBLISH_RESULT_SUCCESS] = isSuccessful;
 
         if (error != null)
         {
-            commandExecution.ExtraValues[ExtraValuesKeys.PUBLISH_RESULT_ERROR] = JsonConvert.SerializeObject(error, GetPublishResultSerializerSettings());
+            commandExecution.ExtraValues[IntegrationEventExtraValuesKeys.PUBLISH_RESULT_ERROR] = JsonConvert.SerializeObject(error, GetPublishResultSerializerSettings());
         }
     }
 
