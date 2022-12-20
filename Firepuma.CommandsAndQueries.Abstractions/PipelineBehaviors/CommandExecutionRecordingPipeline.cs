@@ -13,13 +13,16 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
 {
     private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
     private readonly ICommandExecutionStorage _commandExecutionStorage;
+    private readonly IEnumerable<ICommandExecutionDecorator> _commandExecutionDecorators;
 
     public CommandExecutionRecordingPipeline(
         ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> logger,
-        ICommandExecutionStorage commandExecutionStorage)
+        ICommandExecutionStorage commandExecutionStorage,
+        IEnumerable<ICommandExecutionDecorator> commandExecutionDecorators)
     {
         _logger = logger;
         _commandExecutionStorage = commandExecutionStorage;
+        _commandExecutionDecorators = commandExecutionDecorators;
     }
 
     public async Task<TResponse?> Handle(
@@ -73,6 +76,22 @@ internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelin
         }
 
         var finishedTime = DateTime.UtcNow;
+
+        foreach (var commandExecutionDecorator in _commandExecutionDecorators)
+        {
+            try
+            {
+                commandExecutionDecorator.ExecutionEvent(executionEvent, commandRequest, successful, response, error);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError(
+                    exception,
+                    "Failed to execute CommandExecutionDecorator type {Type}, error: {Error}",
+                    commandExecutionDecorator.GetType().FullName,
+                    exception.Message);
+            }
+        }
 
         executionEvent.Successful = successful;
         executionEvent.Result = result;

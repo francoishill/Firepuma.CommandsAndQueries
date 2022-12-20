@@ -3,6 +3,6 @@ using Firepuma.DatabaseRepositories.Abstractions.Repositories;
 
 namespace Firepuma.CommandsAndQueries.MongoDb.Repositories;
 
-internal interface ICommandExecutionRepository : IRepository<CommandExecutionMongoDbEvent>
+public interface ICommandExecutionRepository : IRepository<CommandExecutionMongoDbEvent>
 {
 }

@@ -24,9 +24,11 @@ public class CommandExecutionMongoDbEvent : BaseMongoDbEntity, ICommandExecution
     public double ExecutionTimeInSeconds { get; set; }
     public double TotalTimeInSeconds { get; set; }
 
+    public Dictionary<string, object?> ExtraValues { get; set; } = new();
+
     public CommandExecutionMongoDbEvent()
     {
-        // used by Azure Cosmos deserialization (including the Add methods, like repository.AddItemAsync)
+        // used by Mongo deserialization (including the Add methods, like repository.AddItemAsync)
     }
 
     public override string ToString()

@@ -26,6 +26,8 @@ public class CommandExecutionCosmosDbEvent : BaseCosmosDbEntity, ICommandExecuti
     public double ExecutionTimeInSeconds { get; set; }
     public double TotalTimeInSeconds { get; set; }
 
+    public Dictionary<string, object?> ExtraValues { get; set; } = new();
+
     public CommandExecutionCosmosDbEvent()
     {
         // used by Azure Cosmos deserialization (including the Add methods, like repository.AddItemAsync)

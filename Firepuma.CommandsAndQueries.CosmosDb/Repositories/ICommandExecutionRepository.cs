@@ -3,6 +3,6 @@ using Firepuma.DatabaseRepositories.Abstractions.Repositories;
 
 namespace Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 
-internal interface ICommandExecutionRepository : IRepository<CommandExecutionCosmosDbEvent>
+public interface ICommandExecutionRepository : IRepository<CommandExecutionCosmosDbEvent>
 {
 }

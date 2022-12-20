@@ -17,4 +17,6 @@ public interface ICommandExecutionEvent
     string? ErrorStackTrack { get; set; }
     double ExecutionTimeInSeconds { get; set; }
     double TotalTimeInSeconds { get; set; }
+
+    Dictionary<string, object?> ExtraValues { get; set; }
 }

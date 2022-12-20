@@ -2,7 +2,10 @@ using Firepuma.CommandsAndQueries.MongoDb;
 using Firepuma.CommandsAndQueries.MongoDb.Config;
 using Firepuma.DatabaseRepositories.MongoDb;
 using MediatR;
+using MongoDB.Bson;
+using MongoDB.Driver.Core.Events;
 using Sample.CommandsAndQueriesApi.MongoDb.Configuration;
+using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Commands;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Repositories;
@@ -20,10 +23,20 @@ var mongoDbOptions = mongoDbConfigSection.Get<MongoDbOptions>()!;
 
 builder.Services
     .AddMongoDbRepositories(options =>
-    {
-        options.ConnectionString = mongoDbOptions.ConnectionString;
-        options.DatabaseName = mongoDbOptions.DatabaseName;
-    });
+        {
+            options.ConnectionString = mongoDbOptions.ConnectionString;
+            options.DatabaseName = mongoDbOptions.DatabaseName;
+        },
+        configureClusterBuilder: cb =>
+        {
+            if (builder.Environment.IsDevelopment())
+            {
+                cb.Subscribe<CommandStartedEvent>(e =>
+                {
+                    Console.WriteLine($"MongoCommand: {e.CommandName} - {e.Command.ToJson()}");
+                });
+            }
+        });
 builder.Services
     .AddMongoDbRepository<
         PetEntity,
@@ -55,6 +68,8 @@ builder.Services
             CommandExecutionEventCollectionName = mongoDbOptions.CommandExecutionsCollectionName,
         });
 builder.Services.AddMediatR(assembliesWithCommandHandlers);
+
+builder.Services.AddIntegrationEvents();
 
 var app = builder.Build();
 
