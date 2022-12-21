@@ -1,10 +1,11 @@
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 
-namespace Firepuma.CommandsAndQueries.Abstractions.IntegrationEvents;
+namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Abstractions;
 
-public interface ICommandExecutionIntegrationEventPublisher
+internal interface ICommandExecutionIntegrationEventPublisher
 {
     Task PublishEventAsync(
         ICommandExecutionEvent executionEvent,
+        bool ignoreExistingLock,
         CancellationToken cancellationToken);
 }

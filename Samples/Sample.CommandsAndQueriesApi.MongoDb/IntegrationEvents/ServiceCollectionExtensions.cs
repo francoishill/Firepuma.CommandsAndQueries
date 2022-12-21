@@ -1,5 +1,5 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Commands;
-using Firepuma.CommandsAndQueries.Abstractions.IntegrationEvents;
+using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Abstractions;
 using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Services;
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents;

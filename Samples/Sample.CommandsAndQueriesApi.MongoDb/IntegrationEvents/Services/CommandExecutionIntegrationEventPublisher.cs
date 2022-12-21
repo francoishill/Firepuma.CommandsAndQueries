@@ -1,5 +1,4 @@
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
-using Firepuma.CommandsAndQueries.Abstractions.IntegrationEvents;
 using Firepuma.CommandsAndQueries.MongoDb.Entities;
 using Firepuma.CommandsAndQueries.MongoDb.Repositories;
 using Newtonsoft.Json;
@@ -22,7 +21,10 @@ internal class CommandExecutionIntegrationEventPublisher : ICommandExecutionInte
         _commandExecutionRepository = commandExecutionRepository;
     }
 
-    public async Task PublishEventAsync(ICommandExecutionEvent executionEvent, CancellationToken cancellationToken)
+    public async Task PublishEventAsync(
+        ICommandExecutionEvent executionEvent,
+        bool ignoreExistingLock,
+        CancellationToken cancellationToken)
     {
         if (executionEvent.Successful != true)
         {
@@ -49,16 +51,35 @@ internal class CommandExecutionIntegrationEventPublisher : ICommandExecutionInte
             return;
         }
 
-        if (commandExecution.ExtraValues.TryGetValue(IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS, out var previousLockUnixSecondsObj))
+        if (!ignoreExistingLock
+            && commandExecution.ExtraValues.TryGetValue(IntegrationEventExtraValuesKeys.LOCK_UNTIL_UNIX_SECONDS, out var previousLockUnixSecondsObj))
         {
             DateTimeOffset? lockExpiryDate = null;
+            bool? isExpired = null;
             if (previousLockUnixSecondsObj is long previousLockUnixSeconds)
             {
                 lockExpiryDate = DateTimeOffset.FromUnixTimeSeconds(previousLockUnixSeconds);
+                isExpired = previousLockUnixSeconds < DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            }
+            else
+            {
+                _logger.LogWarning(
+                    "Unable to determine whether command execution lock expired, " +
+                    "command document id {DocumentId}, command id {CommandId}, previous lock expiry {LockUnixSeconds} unix seconds",
+                    commandExecution.Id, commandExecution.CommandId, previousLockUnixSecondsObj);
+            }
+
+            if (isExpired == false)
+            {
+                _logger.LogError(
+                    "Command execution lock is not yet expired so aborting this operation, " +
+                    "command document id {DocumentId}, command id {CommandId}, previous lock expiry {LockUnixSeconds} unix seconds ({LockExpiryDate})",
+                    commandExecution.Id, commandExecution.CommandId, previousLockUnixSecondsObj, lockExpiryDate?.ToString("O"));
+                return;
             }
 
             _logger.LogWarning(
-                "Command execution lock expired but will get published again now (it was probably started by another thread/process), " +
+                "Command execution lock expired and not removed, but will published again now, it was probably started by another thread/process that got aborted midway, " +
                 "command document id {DocumentId}, command id {CommandId}, previous lock expiry {LockUnixSeconds} unix seconds ({LockExpiryDate})",
                 commandExecution.Id, commandExecution.CommandId, previousLockUnixSecondsObj, lockExpiryDate?.ToString("O"));
         }

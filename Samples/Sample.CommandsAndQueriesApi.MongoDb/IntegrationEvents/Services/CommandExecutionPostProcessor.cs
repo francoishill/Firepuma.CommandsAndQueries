@@ -1,6 +1,6 @@
 using Firepuma.CommandsAndQueries.Abstractions.Commands;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
-using Firepuma.CommandsAndQueries.Abstractions.IntegrationEvents;
+using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Abstractions;
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Services;
 
@@ -27,6 +27,10 @@ internal class CommandExecutionPostProcessor : ICommandExecutionPostProcessor
             return;
         }
 
-        await _integrationEventPublisher.PublishEventAsync(executionEvent, cancellationToken);
+        // we set the lock for ourself as part of the decorator, so ignore it here since another
+        // background process should not have started processing it
+        const bool ignoreExistingLock = true;
+
+        await _integrationEventPublisher.PublishEventAsync(executionEvent, ignoreExistingLock, cancellationToken);
     }
 }

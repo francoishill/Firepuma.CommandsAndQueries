@@ -1,5 +1,5 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.IntegrationEvents;
-using Firepuma.CommandsAndQueries.MongoDb.Repositories;
+﻿using Firepuma.CommandsAndQueries.MongoDb.Repositories;
+using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Abstractions;
 using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.QuerySpecifications;
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Services;
@@ -34,7 +34,10 @@ internal class BackgroundEventPublisherService : BackgroundService
                 {
                     try
                     {
-                        await _integrationEventPublisher.PublishEventAsync(commandExecution, stoppingToken);
+                        // important to respect the lock here, since it is background processing
+                        const bool ignoreExistingLock = false;
+
+                        await _integrationEventPublisher.PublishEventAsync(commandExecution, ignoreExistingLock, stoppingToken);
                     }
                     catch (Exception exception)
                     {
