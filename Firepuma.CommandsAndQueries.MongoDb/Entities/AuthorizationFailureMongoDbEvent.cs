@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.DatabaseRepositories.MongoDb.Abstractions.Entities;
+using MongoDB.Driver;
 
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor
@@ -25,5 +26,10 @@ public class AuthorizationFailureMongoDbEvent : BaseMongoDbEntity, IAuthorizatio
     public override string ToString()
     {
         return $"{Id}/{ActionTypeName}/{ActionTypeNamespace}";
+    }
+
+    public static IEnumerable<CreateIndexModel<AuthorizationFailureMongoDbEvent>> GetSchemaIndexes()
+    {
+        return Array.Empty<CreateIndexModel<AuthorizationFailureMongoDbEvent>>();
     }
 }

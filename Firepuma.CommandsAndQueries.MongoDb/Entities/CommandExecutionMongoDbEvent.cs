@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.DatabaseRepositories.MongoDb.Abstractions.Entities;
+using MongoDB.Driver;
 
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor
@@ -34,5 +35,10 @@ public class CommandExecutionMongoDbEvent : BaseMongoDbEntity, ICommandExecution
     public override string ToString()
     {
         return $"{Id}/{CommandId}/{TypeNamespace}.{TypeName}";
+    }
+
+    public static IEnumerable<CreateIndexModel<CommandExecutionMongoDbEvent>> GetSchemaIndexes()
+    {
+        return Array.Empty<CreateIndexModel<CommandExecutionMongoDbEvent>>();
     }
 }

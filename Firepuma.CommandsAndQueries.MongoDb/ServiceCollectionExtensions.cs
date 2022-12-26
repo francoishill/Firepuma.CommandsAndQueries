@@ -7,6 +7,8 @@ using Firepuma.CommandsAndQueries.MongoDb.Services;
 using Firepuma.DatabaseRepositories.MongoDb;
 using Microsoft.Extensions.DependencyInjection;
 
+// ReSharper disable ArgumentsStyleNamedExpression
+
 namespace Firepuma.CommandsAndQueries.MongoDb;
 
 public static class ServiceCollectionExtensions
@@ -43,7 +45,8 @@ public static class ServiceCollectionExtensions
             ICommandExecutionRepository,
             CommandExecutionMongoDbRepository>(
             collectionName,
-            (logger, collection, _) => new CommandExecutionMongoDbRepository(logger, collection));
+            (logger, collection, _) => new CommandExecutionMongoDbRepository(logger, collection),
+            indexesFactory: CommandExecutionMongoDbEvent.GetSchemaIndexes);
 
         services.AddTransient<ICommandExecutionStorage, CommandExecutionMongoDbStorage>();
     }
@@ -59,7 +62,8 @@ public static class ServiceCollectionExtensions
             IAuthorizationFailureEventRepository,
             AuthorizationFailureEventMongoDbRepository>(
             collectionName,
-            (logger, collection, _) => new AuthorizationFailureEventMongoDbRepository(logger, collection));
+            (logger, collection, _) => new AuthorizationFailureEventMongoDbRepository(logger, collection),
+            indexesFactory: AuthorizationFailureMongoDbEvent.GetSchemaIndexes);
 
         services.AddTransient<ICommandAuthorizationStorage, CommandAuthorizationMongoDbStorage>();
     }

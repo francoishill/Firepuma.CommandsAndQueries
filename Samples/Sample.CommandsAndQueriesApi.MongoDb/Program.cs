@@ -10,6 +10,8 @@ using Sample.CommandsAndQueriesApi.MongoDb.Pets.Commands;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Repositories;
 
+// ReSharper disable ArgumentsStyleNamedExpression
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -43,7 +45,8 @@ builder.Services
         IPetRepository,
         PetMongoDbRepository>(
         mongoDbOptions.PetsCollectionName,
-        (logger, collection, _) => new PetMongoDbRepository(logger, collection));
+        (logger, collection, _) => new PetMongoDbRepository(logger, collection),
+        indexesFactory: PetEntity.GetSchemaIndexes);
 
 var assembliesWithCommandHandlers = new[]
 {
