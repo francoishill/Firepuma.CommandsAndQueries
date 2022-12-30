@@ -50,7 +50,7 @@ public static class ServiceCollectionExtensions
             }
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
-            services.AddValidatorsFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies);
+            services.AddValidatorsFromAssemblies(commandHandlingOptions.ValidationHandlerMarkerAssemblies, ServiceLifetime.Transient);
         }
 
         if (commandHandlingOptions.AddAuthorizationBehaviorPipeline)
@@ -104,7 +104,7 @@ public static class ServiceCollectionExtensions
             {
                 foreach (var implementedInterface in type.ImplementedInterfaces)
                 {
-                    services.AddScoped(implementedInterface, type);
+                    services.AddTransient(implementedInterface, type);
                 }
             });
         }
