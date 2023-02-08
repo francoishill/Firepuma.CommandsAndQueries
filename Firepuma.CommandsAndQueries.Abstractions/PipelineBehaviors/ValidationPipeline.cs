@@ -1,11 +1,10 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions.Commands;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
 internal sealed class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : ICommandRequest, IRequest<TResponse>
+    where TRequest : IRequest<TResponse>
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     public ValidationPipeline(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;

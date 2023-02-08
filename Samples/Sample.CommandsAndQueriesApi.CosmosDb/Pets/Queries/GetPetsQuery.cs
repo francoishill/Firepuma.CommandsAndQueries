@@ -1,5 +1,6 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Queries;
 using Firepuma.DatabaseRepositories.Abstractions.QuerySpecifications;
+using FluentValidation;
 using MediatR;
 using Sample.CommandsAndQueriesApi.CosmosDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.CosmosDb.Pets.QuerySpecifications;
@@ -46,6 +47,19 @@ public static class GetPetsQuery
             {
                 Pets = pets.ToArray(),
             };
+        }
+    }
+
+    // ReSharper disable once UnusedType.Global
+    public class Validator : AbstractValidator<Payload>
+    {
+        public Validator()
+        {
+            ClassLevelCascadeMode = CascadeMode.Stop;
+
+            RuleFor(x => x.FilterArrivedAfterDate)
+                .LessThanOrEqualTo(DateTime.UtcNow)
+                .WithMessage("Must be before NOW");
         }
     }
 }
