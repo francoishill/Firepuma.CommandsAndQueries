@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse?> where TRequest : IRequest<TResponse?>
+public class CommandExecutionRecordingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse?> where TRequest : IRequest<TResponse?>
 {
     private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
     private readonly ICommandExecutionStorage _commandExecutionStorage;

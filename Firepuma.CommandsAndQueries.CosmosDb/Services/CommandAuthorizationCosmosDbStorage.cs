@@ -15,7 +15,7 @@ internal class CommandAuthorizationCosmosDbStorage : ICommandAuthorizationStorag
         _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
-    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, FailedAuthorizationRequirement[] failedRequirements)
+    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object? actionPayload, FailedAuthorizationRequirement[] failedRequirements)
     {
         return new AuthorizationFailureCosmosDbEvent();
     }

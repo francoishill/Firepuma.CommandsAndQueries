@@ -1,5 +1,3 @@
-using Firepuma.CommandsAndQueries.MongoDb;
-using Firepuma.CommandsAndQueries.MongoDb.Config;
 using Firepuma.DatabaseRepositories.MongoDb;
 using MediatR;
 using MongoDB.Bson;
@@ -9,6 +7,7 @@ using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Commands;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Repositories;
+using Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling;
 
 // ReSharper disable ArgumentsStyleNamedExpression
 
@@ -52,24 +51,8 @@ var assembliesWithCommandHandlers = new[]
 {
     typeof(CreatePetCommand).Assembly,
 }.Distinct().ToArray();
-builder.Services
-    .AddCommandHandlingWithMongoDbStorage(
-        new MongoDbCommandHandlingOptions
-        {
-            AddWrapCommandExceptionsPipelineBehavior = true,
-            AddLoggingScopePipelineBehavior = true,
-            AddPerformanceLoggingPipelineBehavior = true,
+builder.Services.AddCommandHandlingMediatRStorageAndPipelines(mongoDbOptions, assembliesWithCommandHandlers);
 
-            AddValidationBehaviorPipeline = true,
-            ValidationHandlerMarkerAssemblies = assembliesWithCommandHandlers,
-
-            AddAuthorizationBehaviorPipeline = true,
-            AuthorizationFailureEventCollectionName = mongoDbOptions.AuthorizationFailuresCollectionName,
-            AuthorizationHandlerMarkerAssemblies = assembliesWithCommandHandlers,
-
-            AddRecordingOfExecution = true,
-            CommandExecutionEventCollectionName = mongoDbOptions.CommandExecutionsCollectionName,
-        });
 builder.Services.AddMediatR(assembliesWithCommandHandlers);
 
 builder.Services.AddIntegrationEvents();

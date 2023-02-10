@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Firepuma.CommandsAndQueries.Abstractions.DomainRequests;
+using MediatR;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.Queries;
 
-public interface IQueryRequest
+public interface IQueryRequest : IDomainRequest
 {
 }
 

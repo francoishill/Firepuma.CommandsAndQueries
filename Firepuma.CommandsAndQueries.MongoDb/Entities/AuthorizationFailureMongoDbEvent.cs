@@ -15,7 +15,7 @@ public class AuthorizationFailureMongoDbEvent : BaseMongoDbEntity, IAuthorizatio
 
     public string ActionTypeName { get; set; }
     public string ActionTypeNamespace { get; set; }
-    public object ActionPayload { get; set; }
+    public object? ActionPayload { get; set; }
     public FailedAuthorizationRequirement[] FailedRequirements { get; set; }
 
     public AuthorizationFailureMongoDbEvent()

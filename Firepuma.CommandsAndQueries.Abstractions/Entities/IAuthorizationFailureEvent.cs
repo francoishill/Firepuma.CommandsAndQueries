@@ -10,6 +10,6 @@ public interface IAuthorizationFailureEvent
 
     string ActionTypeName { get; set; }
     string ActionTypeNamespace { get; set; }
-    object ActionPayload { get; set; }
+    object? ActionPayload { get; set; }
     FailedAuthorizationRequirement[] FailedRequirements { get; set; }
 }

@@ -15,7 +15,7 @@ internal class CommandAuthorizationMongoDbStorage : ICommandAuthorizationStorage
         _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
-    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object actionPayload, FailedAuthorizationRequirement[] failedRequirements)
+    public IAuthorizationFailureEvent CreateNewItem(Type actionType, object? actionPayload, FailedAuthorizationRequirement[] failedRequirements)
     {
         return new AuthorizationFailureMongoDbEvent();
     }

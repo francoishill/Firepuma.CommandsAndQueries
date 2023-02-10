@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class WrapCommandExceptionPipeline<TRequest, TResponse>
+public class WrapCommandExceptionPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {

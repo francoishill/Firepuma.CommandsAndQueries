@@ -1,6 +1,4 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions;
-using Firepuma.CommandsAndQueries.Abstractions.Services;
-using Firepuma.CommandsAndQueries.CosmosDb.Config;
+﻿using Firepuma.CommandsAndQueries.Abstractions.Services;
 using Firepuma.CommandsAndQueries.CosmosDb.Entities;
 using Firepuma.CommandsAndQueries.CosmosDb.Repositories;
 using Firepuma.CommandsAndQueries.CosmosDb.Services;
@@ -11,30 +9,7 @@ namespace Firepuma.CommandsAndQueries.CosmosDb;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCommandHandlingWithCosmosDbStorage(
-        this IServiceCollection services,
-        CosmosDbCommandHandlingOptions commandHandlingOptions)
-    {
-        if (commandHandlingOptions == null) throw new ArgumentNullException(nameof(commandHandlingOptions));
-
-        if (commandHandlingOptions.AddRecordingOfExecution)
-        {
-            services.AddCosmosDbCommandExecutionRecording(
-                commandHandlingOptions.CommandExecutionEventContainerName,
-                commandHandlingOptions.CommandExecutionPartitionKeyGenerator);
-        }
-
-        if (commandHandlingOptions.AddAuthorizationBehaviorPipeline)
-        {
-            services.AddCosmosDbCommandAuthorization(
-                commandHandlingOptions.AuthorizationFailureEventContainerName,
-                commandHandlingOptions.AuthorizationFailurePartitionKeyGenerator);
-        }
-
-        services.AddCommandHandling(commandHandlingOptions);
-    }
-
-    private static void AddCosmosDbCommandExecutionRecording(
+    public static void AddCosmosDbCommandExecutionRecording(
         this IServiceCollection services,
         string containerName,
         Type partitionKeyGeneratorImplementationType)
@@ -60,7 +35,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ICommandExecutionStorage, CommandExecutionCosmosDbStorage>();
     }
 
-    private static void AddCosmosDbCommandAuthorization(
+    public static void AddCosmosDbCommandAuthorization(
         this IServiceCollection services,
         string containerName,
         Type partitionKeyGeneratorImplementationType)

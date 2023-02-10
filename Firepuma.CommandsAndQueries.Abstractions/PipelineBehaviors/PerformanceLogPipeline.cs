@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
-internal class PerformanceLogPipeline<TRequest, TResponse>
+public class PerformanceLogPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {

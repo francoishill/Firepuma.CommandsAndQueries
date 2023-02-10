@@ -1,6 +1,4 @@
-﻿using Firepuma.CommandsAndQueries.Abstractions;
-using Firepuma.CommandsAndQueries.Abstractions.Services;
-using Firepuma.CommandsAndQueries.MongoDb.Config;
+﻿using Firepuma.CommandsAndQueries.Abstractions.Services;
 using Firepuma.CommandsAndQueries.MongoDb.Entities;
 using Firepuma.CommandsAndQueries.MongoDb.Repositories;
 using Firepuma.CommandsAndQueries.MongoDb.Services;
@@ -13,28 +11,7 @@ namespace Firepuma.CommandsAndQueries.MongoDb;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddCommandHandlingWithMongoDbStorage(
-        this IServiceCollection services,
-        MongoDbCommandHandlingOptions commandHandlingOptions)
-    {
-        if (commandHandlingOptions == null) throw new ArgumentNullException(nameof(commandHandlingOptions));
-
-        if (commandHandlingOptions.AddRecordingOfExecution)
-        {
-            services.AddMongoDbCommandExecutionRecording(
-                commandHandlingOptions.CommandExecutionEventCollectionName);
-        }
-
-        if (commandHandlingOptions.AddAuthorizationBehaviorPipeline)
-        {
-            services.AddMongoDbCommandAuthorization(
-                commandHandlingOptions.AuthorizationFailureEventCollectionName);
-        }
-
-        services.AddCommandHandling(commandHandlingOptions);
-    }
-
-    private static void AddMongoDbCommandExecutionRecording(
+    public static void AddMongoDbCommandExecutionRecording(
         this IServiceCollection services,
         string collectionName)
     {
@@ -51,7 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ICommandExecutionStorage, CommandExecutionMongoDbStorage>();
     }
 
-    private static void AddMongoDbCommandAuthorization(
+    public static void AddMongoDbCommandAuthorization(
         this IServiceCollection services,
         string collectionName)
     {
