@@ -3,6 +3,6 @@ using Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Entiti
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Repositories;
 
-internal interface ICommandExecutionRepository : IRepository<CommandExecutionMongoDbEvent>
+public interface ICommandExecutionRepository : IRepository<CommandExecutionMongoDbEvent>
 {
 }

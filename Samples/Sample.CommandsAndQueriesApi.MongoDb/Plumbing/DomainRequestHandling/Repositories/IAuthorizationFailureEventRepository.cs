@@ -3,6 +3,6 @@ using Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Entiti
 
 namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Repositories;
 
-internal interface IAuthorizationFailureEventRepository : IRepository<AuthorizationFailureMongoDbEvent>
+public interface IAuthorizationFailureEventRepository : IRepository<AuthorizationFailureMongoDbEvent>
 {
 }
