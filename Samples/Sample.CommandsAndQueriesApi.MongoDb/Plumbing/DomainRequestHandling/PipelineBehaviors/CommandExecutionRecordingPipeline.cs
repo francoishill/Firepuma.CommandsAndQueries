@@ -34,18 +34,21 @@ public class CommandExecutionRecordingPipeline<TRequest, TResponse>
             executionEvent,
             cancellationToken);
 
-        var response = await CommandExecutionHelpers.ExecuteCommandAsync(
-            _logger,
-            next,
-            request,
-            executionEvent);
-
-        // ReSharper disable once RedundantAssignment
-        executionEvent = await _commandExecutionRepository.UpsertItemAsync(
-            executionEvent,
-            ignoreETag: false,
-            cancellationToken);
-
-        return response;
+        try
+        {
+            return await CommandExecutionHelpers.ExecuteCommandAsync(
+                _logger,
+                next,
+                request,
+                executionEvent);
+        }
+        finally
+        {
+            // ReSharper disable once RedundantAssignment
+            executionEvent = await _commandExecutionRepository.UpsertItemAsync(
+                executionEvent,
+                ignoreETag: false,
+                cancellationToken);
+        }
     }
 }
