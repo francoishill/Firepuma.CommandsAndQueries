@@ -15,7 +15,7 @@ public class FailedAuthorizationRequirement
     // ReSharper disable once UnusedMember.Global
     public FailedAuthorizationRequirement()
     {
-        // used by Azure Cosmos deserialization (including the Add methods, like repository.AddItemAsync)
+        // Typically used by Database repository deserialization (including the Add methods, like repository.AddItemAsync)
     }
 
     public FailedAuthorizationRequirement(IAuthorizationRequirement requirement, string message)

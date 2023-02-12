@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Firepuma.CommandsAndQueries.MongoDb\Firepuma.CommandsAndQueries.MongoDb.csproj" />
+      <ProjectReference Include="..\..\Firepuma.CommandsAndQueries.Abstractions\Firepuma.CommandsAndQueries.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,9 +3,10 @@ using Firepuma.CommandsAndQueries.Abstractions.DomainRequests;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.CommandsAndQueries.Abstractions.Exceptions;
 using Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors.Helpers;
-using Firepuma.CommandsAndQueries.Abstractions.Services;
 using FluentValidation;
 using MediatR;
+using Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Entities;
+using Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Repositories;
 
 // ReSharper disable InvertIf
 
@@ -19,20 +20,20 @@ public class PrerequisitesPipelineBehavior<TRequest, TResponse>
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly IEnumerable<IAuthorizer<TRequest>> _authorizers;
     private readonly IMediator _mediator;
-    private readonly ICommandAuthorizationStorage _commandAuthorizationStorage;
+    private readonly IAuthorizationFailureEventRepository _authorizationFailureEventRepository;
 
     public PrerequisitesPipelineBehavior(
         ILogger<PrerequisitesPipelineBehavior<TRequest, TResponse>> logger,
         IEnumerable<IValidator<TRequest>> validators,
         IEnumerable<IAuthorizer<TRequest>> authorizers,
         IMediator mediator,
-        ICommandAuthorizationStorage commandAuthorizationStorage)
+        IAuthorizationFailureEventRepository authorizationFailureEventRepository)
     {
         _logger = logger;
         _validators = validators;
         _authorizers = authorizers;
         _mediator = mediator;
-        _commandAuthorizationStorage = commandAuthorizationStorage;
+        _authorizationFailureEventRepository = authorizationFailureEventRepository;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -71,13 +72,16 @@ public class PrerequisitesPipelineBehavior<TRequest, TResponse>
             {
                 try
                 {
-                    await PrerequisiteHelpers.StoreAuthorizationFailedEvent(
-                        _commandAuthorizationStorage,
+                    var authorizationFailureEvent = new AuthorizationFailureMongoDbEvent();
+
+                    PrerequisiteHelpers.PopulateAuthorizationFailedEvent(
+                        authorizationFailureEvent,
                         request,
                         RequestTypeName,
                         RequestTypeNamespace,
-                        failedRequirements,
-                        cancellationToken);
+                        failedRequirements);
+
+                    await _authorizationFailureEventRepository.AddItemAsync(authorizationFailureEvent, cancellationToken);
                 }
                 catch (Exception exception)
                 {

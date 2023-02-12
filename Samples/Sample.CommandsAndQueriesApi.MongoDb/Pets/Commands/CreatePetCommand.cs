@@ -5,7 +5,6 @@ using Firepuma.CommandsAndQueries.Abstractions.Entities.Attributes;
 using FluentValidation;
 using MediatR;
 using Sample.CommandsAndQueriesApi.MongoDb.AuthorizationRequirements;
-using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents.Abstractions;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Repositories;
 
@@ -32,7 +31,7 @@ public static class CreatePetCommand
         public string SecretLanguage { get; init; } // example of ignored property for command execution recording
     }
 
-    public class Result : BaseIntegrationEventPayload
+    public class Result
     {
         public PetEntity PetEntity { get; init; }
     }

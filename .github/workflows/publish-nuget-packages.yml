@@ -7,7 +7,7 @@ on:
 
 env:
   DOTNET_VERSION: '6.0'
-  PACKAGE_VERSION: "0.16.0"
+  PACKAGE_VERSION: "0.17.0"
 
 jobs:
   build-and-deploy:
@@ -24,8 +24,6 @@ jobs:
       - name: Install dependencies
         run: |
           dotnet restore Firepuma.CommandsAndQueries.Abstractions
-          dotnet restore Firepuma.CommandsAndQueries.CosmosDb
-          dotnet restore Firepuma.CommandsAndQueries.MongoDb
           dotnet restore Firepuma.CommandsAndQueries.Tests
 
       - name: Test
@@ -34,8 +32,6 @@ jobs:
       - name: Package
         run: |
           dotnet pack --configuration Release --output . -p:PackageVersion=${{ env.PACKAGE_VERSION }} Firepuma.CommandsAndQueries.Abstractions/Firepuma.CommandsAndQueries.Abstractions.csproj
-          dotnet pack --configuration Release --output . -p:PackageVersion=${{ env.PACKAGE_VERSION }} Firepuma.CommandsAndQueries.CosmosDb/Firepuma.CommandsAndQueries.CosmosDb.csproj
-          dotnet pack --configuration Release --output . -p:PackageVersion=${{ env.PACKAGE_VERSION }} Firepuma.CommandsAndQueries.MongoDb/Firepuma.CommandsAndQueries.MongoDb.csproj
 
       - name: Publish
         run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json

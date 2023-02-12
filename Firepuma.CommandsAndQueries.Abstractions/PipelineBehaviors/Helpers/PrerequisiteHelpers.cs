@@ -1,6 +1,5 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Authorization;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
-using Firepuma.CommandsAndQueries.Abstractions.Services;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;
@@ -70,26 +69,18 @@ public static class PrerequisiteHelpers
         return errorsDictionary;
     }
 
-    public static async Task StoreAuthorizationFailedEvent<TRequest>(
-        ICommandAuthorizationStorage commandAuthorizationStorage,
+    public static void PopulateAuthorizationFailedEvent<TRequest>(
+        IAuthorizationFailureEvent authorizationFailureEvent,
         TRequest request,
         string requestTypeName,
         string requestTypeNamespace,
-        List<FailedAuthorizationRequirement> failedRequirements,
-        CancellationToken cancellationToken)
+        List<FailedAuthorizationRequirement> failedRequirements)
     {
-        var authorizationFailureEvent = commandAuthorizationStorage.CreateNewItem(
-            typeof(TRequest),
-            request,
-            failedRequirements.ToArray());
-
         authorizationFailureEvent.CreatedOn = DateTime.UtcNow;
 
         authorizationFailureEvent.ActionTypeName = requestTypeName;
         authorizationFailureEvent.ActionTypeNamespace = requestTypeNamespace;
         authorizationFailureEvent.ActionPayload = request;
         authorizationFailureEvent.FailedRequirements = failedRequirements.ToArray();
-
-        await commandAuthorizationStorage.AddItemAsync(authorizationFailureEvent, cancellationToken);
     }
 }

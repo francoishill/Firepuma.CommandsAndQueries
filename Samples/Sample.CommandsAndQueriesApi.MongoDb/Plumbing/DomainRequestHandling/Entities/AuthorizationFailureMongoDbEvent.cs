@@ -6,7 +6,7 @@ using MongoDB.Driver;
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor
 
-namespace Firepuma.CommandsAndQueries.MongoDb.Entities;
+namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Entities;
 
 [DebuggerDisplay("{ToString()}")]
 public class AuthorizationFailureMongoDbEvent : BaseMongoDbEntity, IAuthorizationFailureEvent
@@ -20,7 +20,7 @@ public class AuthorizationFailureMongoDbEvent : BaseMongoDbEntity, IAuthorizatio
 
     public AuthorizationFailureMongoDbEvent()
     {
-        // used by Azure Cosmos deserialization (including the Add methods, like repository.AddItemAsync)
+        // Typically used by Database repository deserialization (including the Add methods, like repository.AddItemAsync)
     }
 
     public override string ToString()

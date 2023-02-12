@@ -6,7 +6,7 @@ using MongoDB.Driver;
 #pragma warning disable CS8618
 // ReSharper disable EmptyConstructor
 
-namespace Firepuma.CommandsAndQueries.MongoDb.Entities;
+namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Entities;
 
 [DebuggerDisplay("{ToString()}")]
 public class CommandExecutionMongoDbEvent : BaseMongoDbEntity, ICommandExecutionEvent

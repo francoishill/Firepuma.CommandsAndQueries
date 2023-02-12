@@ -3,7 +3,6 @@ using MediatR;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.Events;
 using Sample.CommandsAndQueriesApi.MongoDb.Configuration;
-using Sample.CommandsAndQueriesApi.MongoDb.IntegrationEvents;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Commands;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Entities;
 using Sample.CommandsAndQueriesApi.MongoDb.Pets.Repositories;
@@ -54,8 +53,6 @@ var assembliesWithCommandHandlers = new[]
 builder.Services.AddCommandHandlingMediatRStorageAndPipelines(mongoDbOptions, assembliesWithCommandHandlers);
 
 builder.Services.AddMediatR(assembliesWithCommandHandlers);
-
-builder.Services.AddIntegrationEvents();
 
 var app = builder.Build();
 
