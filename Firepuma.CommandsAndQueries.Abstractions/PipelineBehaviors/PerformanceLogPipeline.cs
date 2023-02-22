@@ -24,7 +24,7 @@ public class PerformanceLogPipeline<TRequest, TResponse>
         var requestTypeName = BehaviorPipelineHelpers.GetShortTypeName(typeof(TRequest));
 
         var stopwatch = Stopwatch.StartNew();
-        _logger.LogInformation(
+        _logger.LogDebug(
             "Starting request {Name}",
             requestTypeName);
 
@@ -34,7 +34,7 @@ public class PerformanceLogPipeline<TRequest, TResponse>
         var durationInSeconds = stopwatch.Elapsed.TotalSeconds.ToString("F");
 
         var responseTypeName = BehaviorPipelineHelpers.GetShortTypeName(typeof(TResponse));
-        _logger.LogInformation(
+        _logger.LogDebug(
             "Finished request {Name} (with response type {ResponseType}) in {Duration}s",
             requestTypeName, responseTypeName, durationInSeconds);
 
