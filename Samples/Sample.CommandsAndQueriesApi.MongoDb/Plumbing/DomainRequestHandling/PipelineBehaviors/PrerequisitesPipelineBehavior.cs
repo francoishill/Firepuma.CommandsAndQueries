@@ -72,7 +72,10 @@ public class PrerequisitesPipelineBehavior<TRequest, TResponse>
             {
                 try
                 {
-                    var authorizationFailureEvent = new AuthorizationFailureMongoDbEvent();
+                    var authorizationFailureEvent = new AuthorizationFailureMongoDbEvent
+                    {
+                        Id = AuthorizationFailureMongoDbEvent.GenerateId(),
+                    };
 
                     PrerequisiteHelpers.PopulateAuthorizationFailedEvent(
                         authorizationFailureEvent,

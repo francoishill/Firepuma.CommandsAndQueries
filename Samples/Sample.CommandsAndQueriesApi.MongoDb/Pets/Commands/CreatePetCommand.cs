@@ -76,6 +76,7 @@ public static class CreatePetCommand
         {
             var newPet = new PetEntity
             {
+                Id = PetEntity.GenerateId(),
                 Type = payload.Type,
                 Name = payload.Name,
                 BornOn = payload.BornOn,

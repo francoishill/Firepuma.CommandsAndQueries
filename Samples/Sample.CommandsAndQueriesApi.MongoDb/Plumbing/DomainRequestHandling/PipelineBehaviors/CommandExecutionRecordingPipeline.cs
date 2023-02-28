@@ -26,7 +26,10 @@ public class CommandExecutionRecordingPipeline<TRequest, TResponse>
         RequestHandlerDelegate<TResponse?> next,
         CancellationToken cancellationToken)
     {
-        var executionEvent = new CommandExecutionMongoDbEvent();
+        var executionEvent = new CommandExecutionMongoDbEvent
+        {
+            Id = CommandExecutionMongoDbEvent.GenerateId(),
+        };
 
         CommandExecutionHelpers.PopulateExecutionEventBeforeStart(request, executionEvent);
 

@@ -1,4 +1,5 @@
 ﻿using Firepuma.DatabaseRepositories.MongoDb.Abstractions.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 #pragma warning disable CS8618
@@ -12,6 +13,8 @@ public class PetEntity : BaseMongoDbEntity
     public DateTime BornOn { get; set; }
     public DateTime ArrivedOn { get; set; }
     public string SecretLanguage { get; set; }
+
+    public static string GenerateId() => ObjectId.GenerateNewId().ToString();
 
     public static IEnumerable<CreateIndexModel<PetEntity>> GetSchemaIndexes()
     {

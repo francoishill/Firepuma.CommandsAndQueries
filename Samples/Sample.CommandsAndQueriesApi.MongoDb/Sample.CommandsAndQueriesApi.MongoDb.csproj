@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb" Version="0.16.0" />
-        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb.Abstractions" Version="0.16.0" />
+        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb" Version="0.18.0" />
+        <PackageReference Include="Firepuma.DatabaseRepositories.MongoDb.Abstractions" Version="0.18.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 

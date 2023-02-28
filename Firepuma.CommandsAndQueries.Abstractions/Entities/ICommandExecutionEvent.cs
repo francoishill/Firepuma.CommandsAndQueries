@@ -4,7 +4,7 @@ namespace Firepuma.CommandsAndQueries.Abstractions.Entities;
 
 public interface ICommandExecutionEvent
 {
-    string? Id { get; set; }
+    string Id { get; set; }
 
     DateTime CreatedOn { get; set; }
 

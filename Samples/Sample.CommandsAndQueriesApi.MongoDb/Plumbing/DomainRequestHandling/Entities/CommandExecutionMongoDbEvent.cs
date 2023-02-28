@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using Firepuma.DatabaseRepositories.MongoDb.Abstractions.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 #pragma warning disable CS8618
@@ -31,6 +32,8 @@ public class CommandExecutionMongoDbEvent : BaseMongoDbEntity, ICommandExecution
     {
         // used by Mongo deserialization (including the Add methods, like repository.AddItemAsync)
     }
+
+    public static string GenerateId() => ObjectId.GenerateNewId().ToString();
 
     public override string ToString()
     {
