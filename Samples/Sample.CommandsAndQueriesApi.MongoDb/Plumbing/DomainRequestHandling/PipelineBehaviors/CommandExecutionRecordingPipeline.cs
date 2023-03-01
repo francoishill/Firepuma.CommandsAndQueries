@@ -40,7 +40,6 @@ public class CommandExecutionRecordingPipeline<TRequest, TResponse>
         try
         {
             return await CommandExecutionHelpers.ExecuteCommandAsync(
-                _logger,
                 next,
                 request,
                 executionEvent);

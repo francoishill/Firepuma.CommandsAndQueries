@@ -45,7 +45,6 @@ public static class ServiceCollectionExtensions
             (logger, collection, _) => new AuthorizationFailureEventMongoDbRepository(logger, collection),
             indexesFactory: AuthorizationFailureMongoDbEvent.GetSchemaIndexes);
 
-        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(WrapCommandExceptionPipeline<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingScopePipeline<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceLogPipeline<,>));
 

@@ -1,7 +1,6 @@
 ﻿using Firepuma.CommandsAndQueries.Abstractions.Commands;
 using Firepuma.CommandsAndQueries.Abstractions.Entities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors.Helpers;
@@ -21,7 +20,6 @@ public static class CommandExecutionHelpers
     }
 
     public static async Task<TResponse?> ExecuteCommandAsync<TResponse>(
-        ILogger logger,
         RequestHandlerDelegate<TResponse?> next,
         ICommandRequest commandRequest,
         ICommandExecutionEvent executionEvent)
@@ -43,10 +41,6 @@ public static class CommandExecutionHelpers
         {
             error = exception;
             successful = false;
-            logger.LogError(
-                exception,
-                "Failed to execute command type {Type} and CommandId {CommandId}",
-                commandRequest.GetType().FullName, commandRequest.CommandId);
 
             throw;
         }
