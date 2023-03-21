@@ -1,5 +1,7 @@
-﻿namespace Firepuma.CommandsAndQueries.Abstractions.DomainRequests;
+﻿using MediatR;
 
-public interface IDomainRequest
+namespace Firepuma.CommandsAndQueries.Abstractions.DomainRequests;
+
+public interface IDomainRequest : IBaseRequest
 {
 }
