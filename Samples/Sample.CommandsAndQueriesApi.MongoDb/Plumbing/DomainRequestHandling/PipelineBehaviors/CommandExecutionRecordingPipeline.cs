@@ -8,7 +8,7 @@ namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Pi
 
 public class CommandExecutionRecordingPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse?>
-    where TRequest : ICommandRequest, IRequest<TResponse?>
+    where TRequest : ICommandRequest
 {
     private readonly ICommandExecutionRepository _commandExecutionRepository;
 

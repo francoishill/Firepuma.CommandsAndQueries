@@ -14,7 +14,7 @@ namespace Sample.CommandsAndQueriesApi.MongoDb.Plumbing.DomainRequestHandling.Pi
 
 public class PrerequisitesPipelineBehavior<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IDomainRequest, IRequest<TResponse>
+    where TRequest : IDomainRequest
 {
     private readonly ILogger<PrerequisitesPipelineBehavior<TRequest, TResponse>> _logger;
     private readonly IEnumerable<IValidator<TRequest>> _validators;

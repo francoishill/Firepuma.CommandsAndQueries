@@ -7,7 +7,7 @@ namespace Firepuma.CommandsAndQueries.Abstractions.PipelineBehaviors;
 
 public class PerformanceLogPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+    where TRequest : notnull
 {
     private readonly ILogger<PerformanceLogPipeline<TRequest, TResponse>> _logger;
 
