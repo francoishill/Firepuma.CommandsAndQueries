@@ -12,7 +12,7 @@ namespace Sample.CommandsAndQueriesApi.MongoDb.Pets.Queries;
 
 public static class GetPetsQuery
 {
-    public class Payload : IQueryRequest<Result>
+    public class Payload : BaseQuery<Result>
     {
         public DateTime? FilterArrivedAfterDate { get; set; }
     }
