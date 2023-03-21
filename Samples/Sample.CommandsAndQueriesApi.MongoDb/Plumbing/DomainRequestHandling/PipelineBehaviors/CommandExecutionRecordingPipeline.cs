@@ -10,14 +10,11 @@ public class CommandExecutionRecordingPipeline<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse?>
     where TRequest : ICommandRequest, IRequest<TResponse?>
 {
-    private readonly ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> _logger;
     private readonly ICommandExecutionRepository _commandExecutionRepository;
 
     public CommandExecutionRecordingPipeline(
-        ILogger<CommandExecutionRecordingPipeline<TRequest, TResponse>> logger,
         ICommandExecutionRepository commandExecutionRepository)
     {
-        _logger = logger;
         _commandExecutionRepository = commandExecutionRepository;
     }
 

@@ -1,5 +1,4 @@
 using Firepuma.DatabaseRepositories.MongoDb;
-using MediatR;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.Events;
 using Sample.CommandsAndQueriesApi.MongoDb.Configuration;
@@ -52,7 +51,7 @@ var assembliesWithCommandHandlers = new[]
 }.Distinct().ToArray();
 builder.Services.AddCommandHandlingMediatRStorageAndPipelines(mongoDbOptions, assembliesWithCommandHandlers);
 
-builder.Services.AddMediatR(assembliesWithCommandHandlers);
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblies(assembliesWithCommandHandlers));
 
 var app = builder.Build();
 
