@@ -51,7 +51,7 @@ public static class CommandExecutionHelpers
             executionEvent.Successful = successful;
             executionEvent.Result = result;
             executionEvent.ErrorMessage = error?.Message;
-            executionEvent.ErrorStackTrack = error?.StackTrace;
+            executionEvent.ErrorStackTrace = error?.StackTrace;
             executionEvent.ExecutionTimeInSeconds = (finishedTime - startTime).TotalSeconds;
             executionEvent.TotalTimeInSeconds = (finishedTime - commandRequest.CreatedOn).TotalSeconds;
         }

@@ -16,7 +16,7 @@ public interface ICommandExecutionEvent
     bool? Successful { get; set; }
     string? Result { get; set; }
     string? ErrorMessage { get; set; }
-    string? ErrorStackTrack { get; set; }
+    string? ErrorStackTrace { get; set; }
     double ExecutionTimeInSeconds { get; set; }
     double TotalTimeInSeconds { get; set; }
 
