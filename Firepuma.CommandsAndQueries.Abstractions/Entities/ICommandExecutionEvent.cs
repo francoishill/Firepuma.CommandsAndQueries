@@ -17,8 +17,8 @@ public interface ICommandExecutionEvent
     string? Result { get; set; }
     string? ErrorMessage { get; set; }
     string? ErrorStackTrace { get; set; }
-    double ExecutionTimeInSeconds { get; set; }
-    double TotalTimeInSeconds { get; set; }
+    double? ExecutionTimeInSeconds { get; set; }
+    double? TotalTimeInSeconds { get; set; }
 
     Dictionary<string, object?> ExtraValues { get; set; }
 }
